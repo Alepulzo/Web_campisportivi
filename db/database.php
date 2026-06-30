@@ -22,6 +22,40 @@ class DatabaseHelper{
         $this->db->set_charset("utf8mb4");
     }
 
+    // UTENTI (login / registrazione)
+
+    // Verifica le credenziali: cerca l'utente per email, poi controlla la password
+    // con password_verify() contro l'hash salvato. Ritorna l'utente (0 righe = login fallito).
+    public function checkLogin($email, $password){
+        $stmt = $this->db->prepare("SELECT idutente, nome, cognome, email, ruolo, password FROM utente WHERE email = ?");
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        if(count($result) == 1 && password_verify($password, $result[0]["password"])){
+            unset($result[0]["password"]);   // non faccio uscire l'hash dal DatabaseHelper
+            return $result;
+        }
+        return array();   // login fallito
+    }
+
+    // Ritorna le righe con quell'email (serve per controllare se è già registrata).
+    public function getUserByEmail($email){
+        $stmt = $this->db->prepare("SELECT idutente FROM utente WHERE email = ?");
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Registra un nuovo studente. La password viene salvata come HASH sicuro (bcrypt),
+    // mai in chiaro. Ritorna l'id appena creato.
+    public function registerUser($nome, $cognome, $email, $password){
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("INSERT INTO utente (nome, cognome, email, password, ruolo) VALUES (?, ?, ?, ?, 'studente')");
+        $stmt->bind_param('ssss', $nome, $cognome, $email, $hash);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
     /* ===================== SPORT ===================== */
     // getSport()                          -> tutti gli sport (per filtri/menu)
 

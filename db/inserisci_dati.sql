@@ -5,7 +5,8 @@
 --  Questo file si può RI-eseguire quante volte vuoi: all'inizio SVUOTA
 --  le tabelle e poi le riempie di nuovo (così non dà errori di duplicati).
 --
---  NB 1: password in chiaro come nei lab.
+--  NB 1: le password NON sono in chiaro: sono salvate come HASH (bcrypt, password_hash).
+--        Per accedere si usano comunque le password "vere" qui sotto:
 --          - admin:    admin123
 --          - studenti: password
 --  NB 2: le foto dei campi sono già in upload/ (una per campo: beachvolley.jpg, padel-a.jpg, ...)
@@ -28,18 +29,18 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- UTENTI : 2 admin (email @unibo.it) + 10 studenti (email @studio.unibo.it)
 -- =====================================================================
 INSERT INTO `utente` (`idutente`,`nome`,`cognome`,`email`,`password`,`ruolo`) VALUES
-(1,'Marco','Verdi','marco.verdi@unibo.it','admin123','admin'),
-(2,'Laura','Neri','laura.neri@unibo.it','admin123','admin'),
-(3,'Gino','Pino','gino.pino@studio.unibo.it','password','studente'),
-(4,'Maria','Rossi','maria.rossi@studio.unibo.it','password','studente'),
-(5,'Luca','Bianchi','luca.bianchi@studio.unibo.it','password','studente'),
-(6,'Sara','Russo','sara.russo@studio.unibo.it','password','studente'),
-(7,'Andrea','Ferrari','andrea.ferrari@studio.unibo.it','password','studente'),
-(8,'Giulia','Esposito','giulia.esposito@studio.unibo.it','password','studente'),
-(9,'Matteo','Romano','matteo.romano@studio.unibo.it','password','studente'),
-(10,'Chiara','Colombo','chiara.colombo@studio.unibo.it','password','studente'),
-(11,'Davide','Greco','davide.greco@studio.unibo.it','password','studente'),
-(12,'Francesca','Conti','francesca.conti@studio.unibo.it','password','studente');
+(1,'Marco','Verdi','marco.verdi@unibo.it','$2y$10$rdjjIrQ6SaazexFx0xpHmOL66TxnMWPcZhQfDUar7a9g53WuVElBu','admin'),
+(2,'Laura','Neri','laura.neri@unibo.it','$2y$10$rdjjIrQ6SaazexFx0xpHmOL66TxnMWPcZhQfDUar7a9g53WuVElBu','admin'),
+(3,'Gino','Pino','gino.pino@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente'),
+(4,'Maria','Rossi','maria.rossi@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente'),
+(5,'Luca','Bianchi','luca.bianchi@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente'),
+(6,'Sara','Russo','sara.russo@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente'),
+(7,'Andrea','Ferrari','andrea.ferrari@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente'),
+(8,'Giulia','Esposito','giulia.esposito@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente'),
+(9,'Matteo','Romano','matteo.romano@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente'),
+(10,'Chiara','Colombo','chiara.colombo@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente'),
+(11,'Davide','Greco','davide.greco@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente'),
+(12,'Francesca','Conti','francesca.conti@studio.unibo.it','$2y$10$VQN8RLhvkG7vdS9AcCfdOu/6SzEIO8cyRej8aQk9XndDh8WHU2x4q','studente');
 
 -- =====================================================================
 -- SPORT (i più praticati)

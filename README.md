@@ -27,9 +27,6 @@ Si entra dal **login** e in base al ruolo si finisce nell'area giusta:
 - **Gestione prenotazioni** (vede tutte, può annullare)
 - **Gestione utenti** (elenco utenti, elimina)
 
-> Rispetto al vecchio progetto sono state **tolte le parti troppo complesse** (blocchi di
-> manutenzione, servizi del campo, disponibilità per giorno della settimana, check-in/no-show,
-> corsi di laurea, AJAX pesante): le funzioni restano, ma fatte in modo semplice.
 
 Tecnologie: **PHP** lato server, **JavaScript** + **Bootstrap** lato client.
 
@@ -166,7 +163,21 @@ Schema completo in `db/creazione_db.sql`.
 ---
 
 ## 6. Avvio (XAMPP)
-1. Cartella già in `C:\xampp\htdocs\campisportivi`.
-2. Avviare **Apache** + **MySQL**.
-3. In phpMyAdmin eseguire `db/creazione_db.sql` (poi i dati di prova).
+
+### Se scarichi il progetto da GitHub
+⚠️ **La cartella deve chiamarsi `campisportivi`** (il sito usa `BASE_URL = "/campisportivi/"`).
+Quindi clona indicando quel nome di cartella:
+```bash
+cd /c/xampp/htdocs
+git clone https://github.com/Alepulzo/Web_campisportivi.git campisportivi
+```
+(il `campisportivi` finale forza il nome giusto; senza, git creerebbe la cartella `Web_campisportivi`
+e link/css/immagini si romperebbero. In alternativa, cambia `BASE_URL` in `bootstrap.php`.)
+
+### Mettere in funzione
+1. La cartella deve trovarsi in `C:\xampp\htdocs\campisportivi`.
+2. Avviare **Apache** + **MySQL** da XAMPP.
+3. In phpMyAdmin → **Importa**: prima `db/creazione_db.sql` (lo schema), poi `db/inserisci_dati.sql` (i dati).
 4. Aprire `http://localhost/campisportivi/` (si apre il login).
+
+**Utenti di prova** → admin: `marco.verdi@unibo.it` / `admin123` · studente: `gino.pino@studio.unibo.it` / `password`

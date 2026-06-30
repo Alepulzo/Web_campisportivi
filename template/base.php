@@ -26,7 +26,7 @@
     <!-- INTESTAZIONE -->
     <header class="bg-dark text-white py-3">
         <div class="container">
-            <h1 class="h4 m-0">🏟️ Campi Sportivi del Campus</h1>
+            <div class="h4 m-0">🏟️ Campi Sportivi del Campus</div>
         </div>
     </header>
 
