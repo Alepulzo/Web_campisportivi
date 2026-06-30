@@ -1,10 +1,15 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-/* AREA STUDENTE — le mie prenotazioni (vista "studente/lista-prenotazioni.php")
- * COSA DEVE FARE:
- *   - $templateParams["prenotazioni"] = $dbh->getPrenotazioniByUser($_SESSION["idutente"]);
- *   - (ogni riga con bottone "Annulla")
- *   - require __DIR__ . '/../template/base.php';
- * TODO: implementare */
+// Pagina riservata agli studenti loggati
+if(!isStudente()){
+    header("location: " . BASE_URL . "index.php");
+    exit;
+}
+
+// TODO Fase 3: caricare le prenotazioni con $dbh->getPrenotazioniByUser($_SESSION["idutente"]).
+$templateParams["titolo"] = "Le mie prenotazioni - Campi Sportivi del Campus";
+$templateParams["nome"]   = "studente/lista-prenotazioni.php";
+
+require __DIR__ . '/../template/base.php';
 ?>

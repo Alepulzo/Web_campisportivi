@@ -1,6 +1,2 @@
-<?php
-/* VISTA (admin): elenco utenti registrati.
- * Tabella da $templateParams["utenti"]: nome, cognome, email, ruolo, matricola,
- * con eventuale azione "Elimina". */
-?>
-<!-- TODO -->
+<?php /* VISTA: gestione utenti (admin) — da implementare nella Fase 4. */ ?>
+<h1 class="h3">Gestione utenti</h1>

@@ -1,11 +1,15 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-/* AREA STUDENTE — elenco campi da prenotare (vista "studente/lista-campi.php")
- * Sicurezza: solo studente loggato.
- * COSA DEVE FARE:
- *   - $templateParams["campi"] = $dbh->getCampi();   // filtrabile con ?sport=ID
- *   - $templateParams["sport"] = $dbh->getSport();   // per il filtro
- *   - require __DIR__ . '/../template/base.php';
- * TODO: implementare */
+// Pagina riservata agli studenti loggati
+if(!isStudente()){
+    header("location: " . BASE_URL . "index.php");
+    exit;
+}
+
+// TODO Fase 3: caricare i campi con $dbh->getCampi() e gli sport per il filtro.
+$templateParams["titolo"] = "Prenota un campo - Campi Sportivi del Campus";
+$templateParams["nome"]   = "studente/lista-campi.php";
+
+require __DIR__ . '/../template/base.php';
 ?>

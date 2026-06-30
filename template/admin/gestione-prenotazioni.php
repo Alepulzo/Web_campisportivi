@@ -1,6 +1,2 @@
-<?php
-/* VISTA (admin): elenco di tutte le prenotazioni.
- * Tabella da $templateParams["prenotazioni"]: studente, campo, data, ora, stato,
- * con la possibilità di annullare ogni prenotazione. */
-?>
-<!-- TODO -->
+<?php /* VISTA: gestione prenotazioni (admin) — da implementare nella Fase 4. */ ?>
+<h1 class="h3">Gestione prenotazioni</h1>

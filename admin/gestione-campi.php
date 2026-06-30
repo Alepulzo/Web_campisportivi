@@ -1,12 +1,15 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-/* AREA ADMIN — elenco campi con azioni CRUD (vista "admin/gestione-campi.php")
- * COSA DEVE FARE:
- *   - $templateParams["campi"] = $dbh->getCampi();
- *   - per ogni campo: link a gestisci-campo.php?action=2&id (Modifica),
- *     gestisci-campo.php?action=3&id (Cancella), chiudi/riapri (setStatoCampo)
- *   - bottone "Aggiungi campo" -> gestisci-campo.php?action=1
- *   - require __DIR__ . '/../template/base.php';
- * TODO: implementare */
+// Pagina riservata agli admin loggati
+if(!isAdmin()){
+    header("location: " . BASE_URL . "index.php");
+    exit;
+}
+
+// TODO Fase 4: caricare i campi con $dbh->getCampi() e mostrarli con i bottoni di gestione.
+$templateParams["titolo"] = "Gestione campi - Campi Sportivi del Campus";
+$templateParams["nome"]   = "admin/gestione-campi.php";
+
+require __DIR__ . '/../template/base.php';
 ?>

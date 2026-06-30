@@ -1,9 +1,15 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-/* AREA STUDENTE — profilo (vista "studente/profilo.php")
- * COSA DEVE FARE:
- *   - $templateParams["utente"] = $dbh->getUserById($_SESSION["idutente"]);
- *   - require __DIR__ . '/../template/base.php';
- * TODO: implementare */
+// Pagina riservata agli studenti loggati
+if(!isStudente()){
+    header("location: " . BASE_URL . "index.php");
+    exit;
+}
+
+// TODO Fase 3: caricare i dati del profilo con $dbh->getUserById($_SESSION["idutente"]).
+$templateParams["titolo"] = "Profilo - Campi Sportivi del Campus";
+$templateParams["nome"]   = "studente/profilo.php";
+
+require __DIR__ . '/../template/base.php';
 ?>

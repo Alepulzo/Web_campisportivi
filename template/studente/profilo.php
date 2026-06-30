@@ -1,6 +1,2 @@
-<?php
-/* VISTA: profilo dello studente (dentro <main>).
- * Mostra i dati personali presi da $templateParams["utente"]
- * (nome, cognome, email, username, matricola, data registrazione). */
-?>
-<!-- TODO: dati del profilo -->
+<?php /* VISTA: profilo studente — da implementare nella Fase 3. */ ?>
+<h1 class="h3">Profilo</h1>
