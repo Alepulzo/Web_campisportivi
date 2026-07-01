@@ -8,7 +8,7 @@ $modifica = !empty($campo["idcampo"]);
 <h1 class="h3 mb-4"><?php echo $modifica ? "Modifica campo" : "Aggiungi campo"; ?></h1>
 
 <form method="post" action="<?php echo BASE_URL; ?>admin/processa-campo.php"
-      enctype="multipart/form-data" class="row g-3" style="max-width: 720px;">
+      enctype="multipart/form-data" class="row g-3">
 
     <!-- idcampo nascosto: vuoto = nuovo, pieno = modifica -->
     <input type="hidden" name="idcampo" value="<?php echo htmlspecialchars($campo["idcampo"]); ?>" />
@@ -20,7 +20,7 @@ $modifica = !empty($campo["idcampo"]);
                value="<?php echo htmlspecialchars($campo["nomecampo"]); ?>" />
     </div>
 
-    <div class="col-md-6">
+    <div class="col-12 col-md-6">
         <label for="sport" class="form-label">Sport</label>
         <select class="form-select" id="sport" name="sport" required>
             <option value="">— scegli —</option>
@@ -33,7 +33,7 @@ $modifica = !empty($campo["idcampo"]);
         </select>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-12 col-md-6">
         <label for="tipocampo" class="form-label">Tipo</label>
         <select class="form-select" id="tipocampo" name="tipocampo" required>
             <option value="">— scegli —</option>
@@ -42,27 +42,27 @@ $modifica = !empty($campo["idcampo"]);
         </select>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-12 col-md-8">
         <label for="luogocampo" class="form-label">Luogo</label>
         <input type="text" class="form-control" id="luogocampo" name="luogocampo"
                maxlength="100" required
                value="<?php echo htmlspecialchars($campo["luogocampo"]); ?>" />
     </div>
 
-    <div class="col-md-4">
+    <div class="col-12 col-md-4">
         <label for="capienzamax" class="form-label">Capienza massima</label>
         <input type="number" class="form-control" id="capienzamax" name="capienzamax"
                min="1" required
                value="<?php echo htmlspecialchars($campo["capienzamax"]); ?>" />
     </div>
 
-    <div class="col-md-6">
+    <div class="col-12 col-md-6">
         <label for="orarioapertura" class="form-label">Orario di apertura</label>
         <input type="time" class="form-control" id="orarioapertura" name="orarioapertura"
                required value="<?php echo htmlspecialchars($campo["orarioapertura"]); ?>" />
     </div>
 
-    <div class="col-md-6">
+    <div class="col-12 col-md-6">
         <label for="orariochiusura" class="form-label">Orario di chiusura</label>
         <input type="time" class="form-control" id="orariochiusura" name="orariochiusura"
                required value="<?php echo htmlspecialchars($campo["orariochiusura"]); ?>" />
