@@ -3,10 +3,10 @@
  * DatabaseHelper  —  STRATO DI ACCESSO AI DATI
  * ------------------------------------------------------------
  * UNICO file che parla col database. Ogni query è un metodo e usa
- * SEMPRE i prepared statement (prepare + bind_param), come nei lab.
+ * SEMPRE i prepared statement (prepare + bind_param).
  *
  * Sotto: ELENCO dei metodi da implementare, raggruppati per funzione
- * del sito. Per ora sono segnaposto commentati: li riempiremo a mano.
+ * del sito.
  * ============================================================ */
 class DatabaseHelper{
     private $db;
@@ -25,7 +25,7 @@ class DatabaseHelper{
     // UTENTI (login / registrazione)
 
     // Verifica le credenziali: cerca l'utente per email, poi controlla la password
-    // con password_verify() contro l'hash salvato. Ritorna l'utente (0 righe = login fallito).
+    // con password_verify() contro l'hash salvato.
     public function checkLogin($email, $password){
         $stmt = $this->db->prepare("SELECT idutente, nome, cognome, email, ruolo, password FROM utente WHERE email = ?");
         $stmt->bind_param('s', $email);
@@ -46,8 +46,7 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Registra un nuovo studente. La password viene salvata come HASH sicuro (bcrypt),
-    // mai in chiaro. Ritorna l'id appena creato.
+    // Registra un nuovo studente. La password viene salvata come HASH sicuro, mai in chiaro.
     public function registerUser($nome, $cognome, $email, $password){
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $this->db->prepare("INSERT INTO utente (nome, cognome, email, password, ruolo) VALUES (?, ?, ?, ?, 'studente')");
@@ -56,8 +55,96 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    // CAMPI (lettura)
+
+    // Ritorna TUTTI i campi con il nome dello sport ordinati per nome.
+    public function getCampi(){
+        $stmt = $this->db->prepare(
+            "SELECT c.idcampo, c.nomecampo, c.luogocampo, c.tipocampo, c.aperto, c.imgcampo, s.nomesport
+             FROM campo c
+             INNER JOIN sport s ON c.sport = s.idsport
+             ORDER BY c.nomecampo"
+        );
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Ritorna UN campo dal suo id
+    public function getCampoById($idcampo){
+        $stmt = $this->db->prepare(
+            "SELECT idcampo, nomecampo, descrizionecampo, luogocampo, tipocampo,
+                    capienzamax, orarioapertura, orariochiusura, aperto, imgcampo, sport, creatore
+             FROM campo WHERE idcampo = ?"
+        );
+        $stmt->bind_param('i', $idcampo);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return count($result) === 1 ? $result[0] : null;
+    }
+
+    // CAMPI (scrittura)
+
+    // Cambia lo stato di un campo: 1 = aperto, 0 = chiuso. Ritorna true se riesce.
+    public function setStatoCampo($idcampo, $aperto){
+        $stmt = $this->db->prepare("UPDATE campo SET aperto = ? WHERE idcampo = ?");
+        $stmt->bind_param('ii', $aperto, $idcampo);
+        return $stmt->execute();
+    }
+
+    // Aggiunge un nuovo campo.
+    public function insertCampo($nomecampo, $descrizione, $luogocampo, $tipocampo,
+                                $capienzamax, $orarioapertura, $orariochiusura,
+                                $aperto, $imgcampo, $sport, $creatore){
+        $stmt = $this->db->prepare(
+            "INSERT INTO campo
+               (nomecampo, descrizionecampo, luogocampo, tipocampo, capienzamax,
+                orarioapertura, orariochiusura, aperto, imgcampo, sport, creatore)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        );
+        $stmt->bind_param('ssssissisii',
+            $nomecampo, $descrizione, $luogocampo, $tipocampo, $capienzamax,
+            $orarioapertura, $orariochiusura, $aperto, $imgcampo, $sport, $creatore);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
+    // Modifica un campo esistente.
+    public function updateCampo($idcampo, $nomecampo, $descrizione, $luogocampo, $tipocampo,
+                                $capienzamax, $orarioapertura, $orariochiusura,
+                                $aperto, $imgcampo, $sport){
+        $stmt = $this->db->prepare(
+            "UPDATE campo SET
+                nomecampo = ?, descrizionecampo = ?, luogocampo = ?, tipocampo = ?,
+                capienzamax = ?, orarioapertura = ?, orariochiusura = ?, aperto = ?,
+                imgcampo = ?, sport = ?
+             WHERE idcampo = ?"
+        );
+        // tipi: s s s s i s s i s i i
+        $stmt->bind_param('ssssissisii',
+            $nomecampo, $descrizione, $luogocampo, $tipocampo, $capienzamax,
+            $orarioapertura, $orariochiusura, $aperto, $imgcampo, $sport, $idcampo);
+        return $stmt->execute();
+    }
+
+    // Elimina un campo e tutte le sue prenotazioni.
+    public function deleteCampo($idcampo){
+        $stmt = $this->db->prepare("DELETE FROM prenotazione WHERE campo = ?");
+        $stmt->bind_param('i', $idcampo);
+        $stmt->execute();
+
+        $stmt = $this->db->prepare("DELETE FROM campo WHERE idcampo = ?");
+        $stmt->bind_param('i', $idcampo);
+        return $stmt->execute();
+    }
+
     /* ===================== SPORT ===================== */
-    // getSport()                          -> tutti gli sport (per filtri/menu)
+
+    // Ritorna tutti gli sport.
+    public function getSport(){
+        $stmt = $this->db->prepare("SELECT idsport, nomesport FROM sport ORDER BY nomesport");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 
     /* ===================== CAMPI (lettura) ===================== */
     // getCampi($n = -1)                   -> elenco campi (join con sport); filtrabile

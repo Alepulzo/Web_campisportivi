@@ -1,13 +1,33 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-/* AREA ADMIN — mostra il form per gestire un campo (vista "admin/form-campo.php")
- * URL: admin/gestisci-campo.php?action=1            (1 = Inserisci)
- *      admin/gestisci-campo.php?action=2&id=5       (2 = Modifica)
- *      admin/gestisci-campo.php?action=3&id=5       (3 = Cancella)
- * COSA DEVE FARE:
- *   - controllare isAdmin() e la validità di action/id
- *   - se action != 1: caricare il campo; altrimenti getEmptyCampo()
- *   - require __DIR__ . '/../template/base.php';
- * TODO: implementare */
+// Pagina riservata agli admin loggati
+if(!isAdmin()){
+    header("location: " . BASE_URL . "index.php");
+    exit;
+}
+
+// Se arriva un id siamo in MODIFICA: carico quel campo per pre-compilare il form.
+// Se NON arriva nessun id siamo in AGGIUNTA: parto da un campo "vuoto".
+$id = isset($_GET["id"]) ? intval($_GET["id"]) : 0;
+
+if($id > 0){
+    $campo = $dbh->getCampoById($id);
+    // se l'id non esiste, torno alla lista invece di mostrare un form rotto
+    if($campo === null){
+        header("location: " . BASE_URL . "admin/gestione-campi.php");
+        exit;
+    }
+} else {
+    $campo = getEmptyCampo();
+}
+
+$modifica = ($id > 0);
+
+$templateParams["titolo"] = ($modifica ? "Modifica campo" : "Aggiungi campo") . " - Campi Sportivi del Campus";
+$templateParams["nome"]   = "admin/form-campo.php";
+$templateParams["campo"]  = $campo;                 // dati del campo (vuoti o pieni)
+$templateParams["sport"]  = $dbh->getSport();       // per il menu a tendina
+
+require __DIR__ . '/../template/base.php';
 ?>

@@ -7,9 +7,11 @@ if(!isAdmin()){
     exit;
 }
 
-// TODO Fase 4: caricare i campi con $dbh->getCampi() e mostrarli con i bottoni di gestione.
+// Prendo i campi e li passo alla vista.
 $templateParams["titolo"] = "Gestione campi - Campi Sportivi del Campus";
 $templateParams["nome"]   = "admin/gestione-campi.php";
+$templateParams["campi"]  = $dbh->getCampi();
+$templateParams["js"]     = ["js/gestione-campi.js"];
 
 require __DIR__ . '/../template/base.php';
 ?>
