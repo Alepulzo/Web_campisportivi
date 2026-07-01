@@ -55,6 +55,19 @@ function getEmptyCampo(){
     ];
 }
 
+// Ritorna una prenotazione "vuota" (per il form di aggiunta).
+function getEmptyPrenotazione(){
+    return [
+        "idprenotazione"   => "",
+        "utente"           => "",
+        "campo"            => "",
+        "dataprenotazione" => "",
+        "orainizio"        => "",
+        "orafine"          => "",
+        "numpartecipanti"  => 1
+    ];
+}
+
 // Carica la foto in upload/ e ritorna il nome del file, oppure null.
 function uploadImage($file){
     // nessun file o errore nel caricamento

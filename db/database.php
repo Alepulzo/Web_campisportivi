@@ -177,6 +177,69 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0]["n"];
     }
 
+    /* ===================== PRENOTAZIONI ===================== */
+
+    // Tutte le prenotazioni con studente e campo, ordinate per data.
+    public function getAllPrenotazioni(){
+        $stmt = $this->db->prepare(
+            "SELECT p.idprenotazione, p.dataprenotazione, p.orainizio, p.orafine,
+                    p.numpartecipanti, p.stato, u.nome, u.cognome, c.nomecampo
+             FROM prenotazione p
+             INNER JOIN utente u ON p.utente = u.idutente
+             INNER JOIN campo  c ON p.campo  = c.idcampo
+             ORDER BY p.dataprenotazione, p.orainizio"
+        );
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Una prenotazione dal suo id (per pre-compilare il form di modifica), o null.
+    public function getPrenotazioneById($idprenotazione){
+        $stmt = $this->db->prepare(
+            "SELECT idprenotazione, utente, campo, dataprenotazione, orainizio, orafine, numpartecipanti, stato
+             FROM prenotazione WHERE idprenotazione = ?"
+        );
+        $stmt->bind_param('i', $idprenotazione);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return count($result) === 1 ? $result[0] : null;
+    }
+
+    // Elenco degli studenti (per il menu a tendina del form prenotazione).
+    public function getStudenti(){
+        $stmt = $this->db->prepare("SELECT idutente, nome, cognome FROM utente WHERE ruolo = 'studente' ORDER BY cognome, nome");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Aggiunge una prenotazione (stato 'confermata' di default).
+    public function insertPrenotazione($utente, $campo, $data, $orainizio, $orafine, $numpartecipanti){
+        $stmt = $this->db->prepare(
+            "INSERT INTO prenotazione (utente, campo, dataprenotazione, orainizio, orafine, numpartecipanti)
+             VALUES (?, ?, ?, ?, ?, ?)"
+        );
+        $stmt->bind_param('iisssi', $utente, $campo, $data, $orainizio, $orafine, $numpartecipanti);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
+    // Modifica una prenotazione esistente.
+    public function updatePrenotazione($idprenotazione, $utente, $campo, $data, $orainizio, $orafine, $numpartecipanti){
+        $stmt = $this->db->prepare(
+            "UPDATE prenotazione SET utente = ?, campo = ?, dataprenotazione = ?, orainizio = ?, orafine = ?, numpartecipanti = ?
+             WHERE idprenotazione = ?"
+        );
+        $stmt->bind_param('iisssii', $utente, $campo, $data, $orainizio, $orafine, $numpartecipanti, $idprenotazione);
+        return $stmt->execute();
+    }
+
+    // Annulla una prenotazione: mette stato = 'cancellata' (non elimina la riga).
+    public function annullaPrenotazioneAdmin($idprenotazione){
+        $stmt = $this->db->prepare("UPDATE prenotazione SET stato = 'cancellata' WHERE idprenotazione = ?");
+        $stmt->bind_param('i', $idprenotazione);
+        return $stmt->execute();
+    }
+
     /* ===================== CAMPI (lettura) ===================== */
     // getCampi($n = -1)                   -> elenco campi (join con sport); filtrabile
     // getCampiBySport($idsport)           -> campi di uno sport
