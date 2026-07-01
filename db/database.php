@@ -240,6 +240,35 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
+    /* ===================== UTENTI (gestione admin) ===================== */
+
+    // Tutti gli utenti (per la lista in gestione utenti).
+    public function getAllUtenti(){
+        $stmt = $this->db->prepare("SELECT idutente, nome, cognome, email, ruolo, dataregistrazione FROM utente ORDER BY cognome, nome");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Elimina un utente, ma solo se è uno studente (mai un admin).
+    public function deleteUtente($idutente){
+        // controllo il ruolo: gli admin non si eliminano
+        $stmt = $this->db->prepare("SELECT ruolo FROM utente WHERE idutente = ?");
+        $stmt->bind_param('i', $idutente);
+        $stmt->execute();
+        $r = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        if(count($r) === 0 || $r[0]["ruolo"] !== 'studente'){
+            return false;
+        }
+        // prima le sue prenotazioni (vincolo di chiave esterna), poi l'utente
+        $stmt = $this->db->prepare("DELETE FROM prenotazione WHERE utente = ?");
+        $stmt->bind_param('i', $idutente);
+        $stmt->execute();
+
+        $stmt = $this->db->prepare("DELETE FROM utente WHERE idutente = ?");
+        $stmt->bind_param('i', $idutente);
+        return $stmt->execute();
+    }
+
     /* ===================== CAMPI (lettura) ===================== */
     // getCampi($n = -1)                   -> elenco campi (join con sport); filtrabile
     // getCampiBySport($idsport)           -> campi di uno sport

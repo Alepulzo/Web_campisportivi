@@ -7,9 +7,11 @@ if(!isAdmin()){
     exit;
 }
 
-// TODO Fase 4: caricare gli utenti con $dbh->getAllUtenti().
+// Prendo gli utenti e li passo alla vista.
 $templateParams["titolo"] = "Gestione utenti - Campi Sportivi del Campus";
 $templateParams["nome"]   = "admin/gestione-utenti.php";
+$templateParams["utenti"] = $dbh->getAllUtenti();
+$templateParams["js"]     = ["js/gestione-utenti.js"];
 
 require __DIR__ . '/../template/base.php';
 ?>
