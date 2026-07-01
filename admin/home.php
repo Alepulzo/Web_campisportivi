@@ -7,8 +7,12 @@ if(!isAdmin()){
     exit;
 }
 
+// Prendo i numeri e le prenotazioni di oggi per la dashboard.
 $templateParams["titolo"] = "Dashboard Admin - Campi Sportivi del Campus";
 $templateParams["nome"]   = "admin/dashboard.php";
+$templateParams["numCampi"]         = $dbh->countCampi();
+$templateParams["numCampiChiusi"]   = $dbh->countCampiChiusi();
+$templateParams["prenotazioniOggi"] = $dbh->getPrenotazioniOggi();
 
 require __DIR__ . '/../template/base.php';
 ?>

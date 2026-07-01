@@ -146,6 +146,37 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    /* ===================== DASHBOARD ===================== */
+
+    // Prenotazioni di oggi (con studente e campo), solo confermate.
+    public function getPrenotazioniOggi(){
+        $stmt = $this->db->prepare(
+            "SELECT p.idprenotazione, p.orainizio, p.orafine, p.numpartecipanti,
+                    u.nome, u.cognome, c.nomecampo
+             FROM prenotazione p
+             INNER JOIN utente u ON p.utente = u.idutente
+             INNER JOIN campo  c ON p.campo  = c.idcampo
+             WHERE p.dataprenotazione = CURDATE() AND p.stato = 'confermata'
+             ORDER BY p.orainizio"
+        );
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Numero di campi.
+    public function countCampi(){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS n FROM campo");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0]["n"];
+    }
+
+    // Numero di campi chiusi.
+    public function countCampiChiusi(){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS n FROM campo WHERE aperto = 0");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0]["n"];
+    }
+
     /* ===================== CAMPI (lettura) ===================== */
     // getCampi($n = -1)                   -> elenco campi (join con sport); filtrabile
     // getCampiBySport($idsport)           -> campi di uno sport
