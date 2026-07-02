@@ -9,7 +9,7 @@ if(!isAdmin()){
 
 // Prendo gli utenti e li passo alla vista.
 $templateParams["titolo"] = "Gestione utenti - Campi Sportivi del Campus";
-$templateParams["nome"]   = "admin/gestione-utenti.php";
+$templateParams["nome"]   = "admin/lista-utenti.php";
 $templateParams["utenti"] = $dbh->getAllUtenti();
 $templateParams["js"]     = ["js/gestione-utenti.js"];
 

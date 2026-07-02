@@ -8,7 +8,7 @@ if(!isStudente()){
 }
 
 $templateParams["titolo"] = "Dashboard - Campi Sportivi del Campus";
-$templateParams["nome"]   = "studente/home.php";
+$templateParams["nome"]   = "studente/dashboard.php";
 
 require __DIR__ . '/../template/base.php';
 ?>

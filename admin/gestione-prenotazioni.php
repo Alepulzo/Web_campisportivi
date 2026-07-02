@@ -26,7 +26,7 @@ foreach($tutte as $p){
 $passate = array_reverse($passate);   // le passate più recenti in alto
 
 $templateParams["titolo"]  = "Gestione prenotazioni - Campi Sportivi del Campus";
-$templateParams["nome"]    = "admin/gestione-prenotazioni.php";
+$templateParams["nome"]    = "admin/lista-prenotazioni.php";
 $templateParams["oggi"]    = $oggi;
 $templateParams["future"]  = $future;
 $templateParams["passate"] = $passate;

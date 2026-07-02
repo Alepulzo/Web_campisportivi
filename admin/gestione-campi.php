@@ -9,7 +9,7 @@ if(!isAdmin()){
 
 // Prendo i campi e li passo alla vista.
 $templateParams["titolo"] = "Gestione campi - Campi Sportivi del Campus";
-$templateParams["nome"]   = "admin/gestione-campi.php";
+$templateParams["nome"]   = "admin/lista-campi.php";
 $templateParams["campi"]  = $dbh->getCampi();
 $templateParams["js"]     = ["js/gestione-campi.js"];
 

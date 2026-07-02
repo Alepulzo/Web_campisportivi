@@ -1,7 +1,4 @@
-<?php
-/* VISTA: dettaglio di un singolo campo (dentro <main>).
- * Mostra immagine, nome, sport, descrizione, luogo, stato (aperto/chiuso) e
- * il FORM/calendario per scegliere data e ora e PRENOTARE.
- * Usa $templateParams["campo"]. */
-?>
-<!-- TODO: dati del campo + form di prenotazione (data, ora inizio/fine) -->
+<?php /* VISTA: dettaglio di un singolo campo — da implementare.
+   Usa $templateParams["campo"]. Mostra foto, nome, sport, descrizione, luogo, orari,
+   e un bottone "Prenota" -> gestisci-prenotazione.php?campo=X (il form vero e proprio). */ ?>
+<h1 class="h3">Dettaglio campo</h1>
