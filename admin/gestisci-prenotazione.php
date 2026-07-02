@@ -27,7 +27,14 @@ $templateParams["titolo"]       = ($modifica ? "Modifica prenotazione" : "Aggiun
 $templateParams["nome"]         = "admin/form-prenotazione.php";
 $templateParams["prenotazione"] = $prenotazione;             // dati (vuoti o pieni)
 $templateParams["studenti"]     = $dbh->getStudenti();       // menu a tendina studente
-$templateParams["campi"]        = $dbh->getCampi();          // menu a tendina campo
+$templateParams["campi"]        = $dbh->getCampiAperti();    // nel menù solo i campi aperti
+$templateParams["js"]           = ["js/form-prenotazione.js"];
+
+// eventuale messaggio d'errore da un salvataggio rifiutato
+if(isset($_SESSION["errore_prenotazione"])){
+    $templateParams["errore"] = $_SESSION["errore_prenotazione"];
+    unset($_SESSION["errore_prenotazione"]);
+}
 
 require __DIR__ . '/../template/base.php';
 ?>

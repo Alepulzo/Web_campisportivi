@@ -69,6 +69,13 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    // Solo i campi aperti (prenotabili), per il menù del form prenotazione.
+    public function getCampiAperti(){
+        $stmt = $this->db->prepare("SELECT idcampo, nomecampo, capienzamax FROM campo WHERE aperto = 1 ORDER BY nomecampo");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
     // Ritorna UN campo dal suo id
     public function getCampoById($idcampo){
         $stmt = $this->db->prepare(
@@ -85,10 +92,22 @@ class DatabaseHelper{
     // CAMPI (scrittura)
 
     // Cambia lo stato di un campo: 1 = aperto, 0 = chiuso. Ritorna true se riesce.
+    // Chiudendo (0), annulla anche le prenotazioni future di quel campo.
     public function setStatoCampo($idcampo, $aperto){
         $stmt = $this->db->prepare("UPDATE campo SET aperto = ? WHERE idcampo = ?");
         $stmt->bind_param('ii', $aperto, $idcampo);
-        return $stmt->execute();
+        $ok = $stmt->execute();
+
+        // se sto chiudendo il campo, annullo le sue prenotazioni future (da oggi in poi)
+        if($aperto == 0){
+            $stmt = $this->db->prepare(
+                "UPDATE prenotazione SET stato = 'cancellata'
+                 WHERE campo = ? AND stato = 'confermata' AND dataprenotazione >= CURDATE()"
+            );
+            $stmt->bind_param('i', $idcampo);
+            $stmt->execute();
+        }
+        return $ok;
     }
 
     // Aggiunge un nuovo campo.
@@ -205,6 +224,44 @@ class DatabaseHelper{
         return count($result) === 1 ? $result[0] : null;
     }
 
+    // Prenotazioni confermate di un campo in una data (per calcolare gli slot liberi).
+    // $escludi = id di una prenotazione da ignorare (serve in modifica, per non contarsi da sola).
+    public function getPrenotazioniByCampoEData($idcampo, $data, $escludi = 0){
+        $stmt = $this->db->prepare(
+            "SELECT orainizio, orafine FROM prenotazione
+             WHERE campo = ? AND dataprenotazione = ? AND stato = 'confermata' AND idprenotazione != ?"
+        );
+        $stmt->bind_param('isi', $idcampo, $data, $escludi);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // true se la fascia (orainizio–orafine) è libera su quel campo/giorno (nessuna sovrapposizione).
+    public function isSlotLibero($idcampo, $data, $orainizio, $orafine, $escludi = 0){
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) AS n FROM prenotazione
+             WHERE campo = ? AND dataprenotazione = ? AND stato = 'confermata'
+               AND idprenotazione != ? AND orainizio < ? AND orafine > ?"
+        );
+        $stmt->bind_param('isiss', $idcampo, $data, $escludi, $orafine, $orainizio);
+        $stmt->execute();
+        $r = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $r[0]["n"] == 0;
+    }
+
+    // true se lo studente NON ha già una prenotazione in quella fascia (su qualsiasi campo).
+    public function isStudenteLibero($idutente, $data, $orainizio, $orafine, $escludi = 0){
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) AS n FROM prenotazione
+             WHERE utente = ? AND dataprenotazione = ? AND stato = 'confermata'
+               AND idprenotazione != ? AND orainizio < ? AND orafine > ?"
+        );
+        $stmt->bind_param('isiss', $idutente, $data, $escludi, $orafine, $orainizio);
+        $stmt->execute();
+        $r = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $r[0]["n"] == 0;
+    }
+
     // Elenco degli studenti (per il menu a tendina del form prenotazione).
     public function getStudenti(){
         $stmt = $this->db->prepare("SELECT idutente, nome, cognome FROM utente WHERE ruolo = 'studente' ORDER BY cognome, nome");
@@ -238,6 +295,59 @@ class DatabaseHelper{
         $stmt = $this->db->prepare("UPDATE prenotazione SET stato = 'cancellata' WHERE idprenotazione = ?");
         $stmt->bind_param('i', $idprenotazione);
         return $stmt->execute();
+    }
+
+    // Regole di una prenotazione: ritorna il messaggio d'errore, o "" se è tutto ok.
+    // Condivisa tra admin e studente. ($escludi: prenotazione da ignorare, in modifica)
+    public function erroriPrenotazione($idutente, $idcampo, $data, $orainizio, $orafine, $numpartecipanti, $escludi = 0){
+        $oggi = date("Y-m-d");
+
+        // niente giorni passati
+        if($data < $oggi){
+            return "Non puoi prenotare un giorno già passato.";
+        }
+        // non troppo in anticipo: al massimo GIORNI_ANTICIPO giorni avanti
+        $limite = date("Y-m-d", strtotime("+" . GIORNI_ANTICIPO . " days"));
+        if($data > $limite){
+            return "Puoi prenotare al massimo " . GIORNI_ANTICIPO . " giorni in anticipo (fino al " . date("d/m/Y", strtotime($limite)) . ").";
+        }
+        // se è oggi, la fascia non deve essere già iniziata
+        if($data === $oggi && substr($orainizio, 0, 5) <= date("H:i")){
+            return "Questa fascia oraria è già passata.";
+        }
+
+        // il campo deve esistere ed essere aperto
+        $campo = $this->getCampoById($idcampo);
+        if($campo === null){
+            return "Campo non valido.";
+        }
+        if($campo["aperto"] == 0){
+            return "Questo campo è chiuso: non è prenotabile.";
+        }
+
+        // la fascia deve stare dentro l'orario di apertura del campo
+        $apertura = substr($campo["orarioapertura"], 0, 5);
+        $chiusura = substr($campo["orariochiusura"], 0, 5);
+        if(substr($orainizio, 0, 5) < $apertura || substr($orafine, 0, 5) > $chiusura){
+            return "L'orario scelto è fuori dall'apertura del campo (" . $apertura . "–" . $chiusura . ").";
+        }
+
+        // partecipanti entro la capienza del campo
+        if($numpartecipanti > $campo["capienzamax"]){
+            return "Troppi partecipanti: la capienza massima di questo campo è " . $campo["capienzamax"] . ".";
+        }
+
+        // la fascia non deve essere già occupata (ricontrollo: due invii nello stesso momento)
+        if(!$this->isSlotLibero($idcampo, $data, $orainizio, $orafine, $escludi)){
+            return "Questa fascia è appena stata prenotata: scegline un'altra.";
+        }
+
+        // lo studente non può avere un'altra prenotazione nella stessa fascia (anche su un altro campo)
+        if(!$this->isStudenteLibero($idutente, $data, $orainizio, $orafine, $escludi)){
+            return "Lo studente ha già una prenotazione in questa fascia oraria.";
+        }
+
+        return "";
     }
 
     /* ===================== UTENTI (gestione admin) ===================== */

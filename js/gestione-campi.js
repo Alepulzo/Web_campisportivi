@@ -13,9 +13,11 @@ document.addEventListener("DOMContentLoaded", function () {
             // l'input "aperto" contiene il nuovo stato
             var nuovoAperto = form.querySelector('input[name="aperto"]').value === "1";
 
-            // Chiedo conferma, con il verbo giusto
-            var verbo = nuovoAperto ? "riaprire" : "chiudere";
-            if (!confirm("Vuoi davvero " + verbo + " questo campo?")) {
+            // conferma: chiudendo un campo si annullano le sue prenotazioni future
+            var messaggio = nuovoAperto
+                ? "Vuoi davvero riaprire questo campo?"
+                : "Chiudendo il campo, le prenotazioni future verranno annullate. Continuare?";
+            if (!confirm(messaggio)) {
                 return; // l'utente ha annullato
             }
 
