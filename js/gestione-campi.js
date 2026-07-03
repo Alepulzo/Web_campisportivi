@@ -3,7 +3,6 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // tutti i form chiudi/riapri della tabella
     var forms = document.querySelectorAll(".js-stato-form");
 
     forms.forEach(function (form) {
@@ -42,8 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // aggiorna badge, bottone e valore nascosto
     function aggiornaRiga(form, aperto) {
-        var riga    = form.closest("tr");
-        var badge   = riga.querySelector(".js-stato-badge");
+        var card    = form.closest(".card");
+        var badge   = card.querySelector(".js-stato-badge");
         var bottone = form.querySelector(".js-stato-btn");
         var input   = form.querySelector('input[name="aperto"]');
 

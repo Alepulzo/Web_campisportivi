@@ -60,7 +60,8 @@ class DatabaseHelper{
     // Ritorna TUTTI i campi con il nome dello sport ordinati per nome.
     public function getCampi(){
         $stmt = $this->db->prepare(
-            "SELECT c.idcampo, c.nomecampo, c.luogocampo, c.tipocampo, c.aperto, c.imgcampo, s.nomesport
+            "SELECT c.idcampo, c.nomecampo, c.luogocampo, c.tipocampo, c.aperto, c.imgcampo,
+                    c.orarioapertura, c.orariochiusura, s.nomesport
              FROM campo c
              INNER JOIN sport s ON c.sport = s.idsport
              ORDER BY c.nomecampo"
