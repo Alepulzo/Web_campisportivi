@@ -11,7 +11,7 @@ $sezioni = [
 
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <h1 class="h3 mb-0">Gestione prenotazioni</h1>
-    <a class="btn btn-primary" href="<?php echo BASE_URL; ?>admin/gestisci-prenotazione.php">Aggiungi prenotazione</a>
+    <a class="btn btn-dark" href="<?php echo BASE_URL; ?>admin/gestisci-prenotazione.php">Aggiungi prenotazione</a>
 </div>
 
 <?php foreach($sezioni as $i => $sez): ?>

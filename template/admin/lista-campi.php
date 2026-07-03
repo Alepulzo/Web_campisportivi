@@ -2,7 +2,7 @@
 
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <h1 class="h3 mb-0">Gestione campi</h1>
-    <a class="btn btn-primary" href="<?php echo BASE_URL; ?>admin/gestisci-campo.php">Aggiungi campo</a>
+    <a class="btn btn-dark" href="<?php echo BASE_URL; ?>admin/gestisci-campo.php">Aggiungi campo</a>
 </div>
 
 <?php $campi = isset($templateParams["campi"]) ? $templateParams["campi"] : array(); ?>
