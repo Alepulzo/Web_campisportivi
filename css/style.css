@@ -28,3 +28,12 @@ textarea:focus {
     --bs-nav-pills-link-active-color: #fff;
     --bs-nav-pills-link-active-bg: #212529;
 }
+
+@media (min-width: 768px) {
+    #sidebarMenu {
+        position: sticky;
+        top: 56px;                    /* sotto l'header */
+        height: calc(100vh - 56px);   /* piena altezza */
+        overflow-y: auto;
+    }
+}
