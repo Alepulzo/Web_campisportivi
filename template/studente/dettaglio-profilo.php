@@ -1,5 +1,19 @@
-<?php /* VISTA: profilo studente — da implementare.
-   Mostra i dati dell'utente (nome, cognome, email...).
-   Se il compagno vuole aggiungere un form per modificarli, rinominare in form-profilo.php.
-   Usa $templateParams["utente"] (da $dbh->getUserById in profilo.php). */ ?>
-<h1 class="h3">Il mio profilo</h1>
+<?php
+/* Vista: profilo studente — dati personali (sola lettura). */
+$utente = $templateParams["utente"];
+?>
+<h1 class="h3 mb-4">Il mio profilo</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Nome</dt>
+    <dd class="col-sm-9"><?php echo htmlspecialchars($utente["nome"]); ?></dd>
+
+    <dt class="col-sm-3">Cognome</dt>
+    <dd class="col-sm-9"><?php echo htmlspecialchars($utente["cognome"]); ?></dd>
+
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9"><?php echo htmlspecialchars($utente["email"]); ?></dd>
+
+    <dt class="col-sm-3">Iscritto dal</dt>
+    <dd class="col-sm-9"><?php echo date("d/m/Y", strtotime($utente["dataregistrazione"])); ?></dd>
+</dl>

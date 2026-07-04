@@ -7,8 +7,12 @@ if(!isStudente()){
     exit;
 }
 
-$templateParams["titolo"] = "Dashboard - Campi Sportivi del Campus";
-$templateParams["nome"]   = "studente/dashboard.php";
+$idutente = $_SESSION["idutente"];
+
+$templateParams["titolo"]           = "Dashboard - Campi Sportivi del Campus";
+$templateParams["nome"]             = "studente/dashboard.php";
+$templateParams["prossime"]         = $dbh->getProssimePrenotazioni($idutente, 5);
+$templateParams["numPrenotazioni"]  = $dbh->countPrenotazioniByUser($idutente);
 
 require __DIR__ . '/../template/base.php';
 ?>

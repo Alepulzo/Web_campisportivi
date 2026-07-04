@@ -7,9 +7,9 @@ if(!isStudente()){
     exit;
 }
 
-// TODO Fase 3: caricare i dati del profilo con $dbh->getUserById($_SESSION["idutente"]).
-$templateParams["titolo"] = "Profilo - Campi Sportivi del Campus";
-$templateParams["nome"]   = "studente/dettaglio-profilo.php";
+$templateParams["titolo"]  = "Profilo - Campi Sportivi del Campus";
+$templateParams["nome"]    = "studente/dettaglio-profilo.php";
+$templateParams["utente"]  = $dbh->getUserById($_SESSION["idutente"]);
 
 require __DIR__ . '/../template/base.php';
 ?>

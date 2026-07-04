@@ -7,12 +7,18 @@ if(!isStudente()){
     exit;
 }
 
-// TODO: dettaglio di un campo. URL: studente/campo.php?id=X
-//   - $campo = $dbh->getCampoById($id);  (se null -> torna a campi.php)
-//   - la vista mostra foto/descrizione/orari + un bottone "Prenota"
-//     che porta a gestisci-prenotazione.php?campo=X
+// Dettaglio di un campo. URL: studente/campo.php?id=X
+$id    = isset($_GET["id"]) ? intval($_GET["id"]) : 0;
+$campo = $id > 0 ? $dbh->getCampoById($id) : null;
+
+if($campo === null){
+    header("location: " . BASE_URL . "studente/campi.php");
+    exit;
+}
+
 $templateParams["titolo"] = "Dettaglio campo - Campi Sportivi del Campus";
 $templateParams["nome"]   = "studente/singolo-campo.php";
+$templateParams["campo"]  = $campo;
 
 require __DIR__ . '/../template/base.php';
 ?>

@@ -55,6 +55,15 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    // Dati di un utente dal suo id (per la pagina profilo).
+    public function getUserById($idutente){
+        $stmt = $this->db->prepare("SELECT idutente, nome, cognome, email, ruolo, dataregistrazione FROM utente WHERE idutente = ?");
+        $stmt->bind_param('i', $idutente);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return count($result) === 1 ? $result[0] : null;
+    }
+
     // CAMPI (lettura)
 
     // Ritorna TUTTI i campi con il nome dello sport ordinati per nome.
@@ -76,12 +85,14 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    // Ritorna UN campo dal suo id
+    // Ritorna UN campo dal suo id (con anche il nome dello sport, per il dettaglio).
     public function getCampoById($idcampo){
         $stmt = $this->db->prepare(
-            "SELECT idcampo, nomecampo, descrizionecampo, luogocampo, tipocampo,
-                    capienzamax, orarioapertura, orariochiusura, aperto, imgcampo, sport, creatore
-             FROM campo WHERE idcampo = ?"
+            "SELECT c.idcampo, c.nomecampo, c.descrizionecampo, c.luogocampo, c.tipocampo,
+                    c.capienzamax, c.orarioapertura, c.orariochiusura, c.aperto, c.imgcampo,
+                    c.sport, c.creatore, s.nomesport
+             FROM campo c INNER JOIN sport s ON c.sport = s.idsport
+             WHERE c.idcampo = ?"
         );
         $stmt->bind_param('i', $idcampo);
         $stmt->execute();
@@ -297,6 +308,51 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
+    // Tutte le prenotazioni di uno studente (con nome campo), per "le mie prenotazioni".
+    public function getPrenotazioniByUser($idutente){
+        $stmt = $this->db->prepare(
+            "SELECT p.idprenotazione, p.dataprenotazione, p.orainizio, p.orafine,
+                    p.numpartecipanti, p.stato, p.campo, c.nomecampo
+             FROM prenotazione p
+             INNER JOIN campo c ON p.campo = c.idcampo
+             WHERE p.utente = ?
+             ORDER BY p.dataprenotazione, p.orainizio"
+        );
+        $stmt->bind_param('i', $idutente);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Le prossime $n prenotazioni confermate di uno studente (da oggi in poi), per la dashboard.
+    public function getProssimePrenotazioni($idutente, $n){
+        $stmt = $this->db->prepare(
+            "SELECT p.idprenotazione, p.dataprenotazione, p.orainizio, p.orafine, p.numpartecipanti, c.nomecampo
+             FROM prenotazione p
+             INNER JOIN campo c ON p.campo = c.idcampo
+             WHERE p.utente = ? AND p.stato = 'confermata' AND p.dataprenotazione >= CURDATE()
+             ORDER BY p.dataprenotazione, p.orainizio
+             LIMIT ?"
+        );
+        $stmt->bind_param('ii', $idutente, $n);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    // Numero di prenotazioni confermate fatte da uno studente (dashboard/profilo).
+    public function countPrenotazioniByUser($idutente){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS n FROM prenotazione WHERE utente = ? AND stato = 'confermata'");
+        $stmt->bind_param('i', $idutente);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0]["n"];
+    }
+
+    // Lo studente annulla una SUA prenotazione: mette stato = 'cancellata' solo se è sua.
+    public function annullaPrenotazione($idprenotazione, $idutente){
+        $stmt = $this->db->prepare("UPDATE prenotazione SET stato = 'cancellata' WHERE idprenotazione = ? AND utente = ?");
+        $stmt->bind_param('ii', $idprenotazione, $idutente);
+        return $stmt->execute();
+    }
+
     // Regole di una prenotazione: ritorna il messaggio d'errore, o "" se è tutto ok.
     // Condivisa tra admin e studente. ($escludi: prenotazione da ignorare, in modifica)
     public function erroriPrenotazione($idutente, $idcampo, $data, $orainizio, $orafine, $numpartecipanti, $escludi = 0){
@@ -379,44 +435,10 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
-    /* ===================== CAMPI (lettura) ===================== */
-    // getCampi($n = -1)                   -> elenco campi (join con sport); filtrabile
-    // getCampiBySport($idsport)           -> campi di uno sport
-    // getCampoById($idcampo)              -> dettaglio di un campo
-    // getCampiInEvidenza($n)              -> n campi per la dashboard studente
-
-    /* ===================== CAMPI (scrittura - CRUD admin) ===================== */
-    // insertCampo(...)                    -> aggiunge un campo
-    // updateCampo(...)                    -> modifica un campo
-    // deleteCampo($idcampo)               -> elimina un campo
-    // setStatoCampo($idcampo, $aperto)    -> chiude (0) / riapre (1) un campo
-
-    /* ===================== UTENTI (login / registrazione / profilo) ===================== */
-    // checkLogin($email, $password)       -> verifica credenziali, ritorna l'utente
-    // registerUser(...)                   -> registra un nuovo studente
-    // getUserByEmail($email)              -> per controllare email già usata
-    // getUserById($idutente)              -> dati del profilo
-    // updateProfilo($idutente, ...)       -> aggiorna i dati del profilo
-
-    /* ===================== UTENTI (gestione admin) ===================== */
-    // getAllUtenti()                      -> elenco di tutti gli utenti
-    // deleteUtente($idutente)             -> elimina un utente
-
-    /* ===================== PRENOTAZIONI ===================== */
-    // insertPrenotazione($utente,$campo,$data,$orainizio,$orafine,$partecipanti)
-    // getPrenotazioniByUser($idutente)            -> "le mie prenotazioni"
-    // getProssimePrenotazioni($idutente, $n)      -> per la dashboard studente
-    // annullaPrenotazione($idprenotazione,$idutente) -> lo studente annulla la SUA
-    // getAllPrenotazioni()                        -> tutte (gestione admin, join utente+campo)
-    // getPrenotazioniByCampo($idcampo)            -> prenotazioni di un campo
-    // annullaPrenotazioneAdmin($idprenotazione)   -> l'admin annulla una prenotazione
-    // getPrenotazioniByCampoEData($idcampo,$data) -> per calcolare gli orari liberi
-    // isSlotLibero($idcampo,$data,$orainizio,$orafine) -> evita doppie prenotazioni
-
-    /* ===================== STATISTICHE (dashboard) ===================== */
-    // countCampi()            -> n. campi (dashboard admin)
-    // countUtenti()           -> n. utenti (dashboard admin)
-    // countPrenotazioni()     -> n. prenotazioni totali (dashboard admin)
-    // countPrenotazioniByUser($idutente) -> n. prenotazioni dello studente
+    /* ===================== EXTRA NON RICHIESTI DALLA SCALETTA (facoltativi) ===================== */
+    // getCampiBySport($idsport)      -> campi di uno sport (filtro sulla lista campi)
+    // getCampiInEvidenza($n)         -> n campi in evidenza per la dashboard studente
+    // updateProfilo($idutente, ...)  -> se si aggiunge un form di modifica al profilo
+    // getPrenotazioniByCampo($idcampo) -> prenotazioni di un singolo campo
 }
 ?>
