@@ -10,7 +10,7 @@ $prenotazioniOggi = $templateParams["prenotazioniOggi"];
 <!-- Riquadri con i numeri -->
 <div class="row g-3 mb-4">
     <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 shadow-sm border-0">
             <div class="card-body">
                 <p class="display-6 mb-0"><?php echo $numCampi; ?></p>
                 <p class="text-muted mb-0">Campi</p>
@@ -18,7 +18,7 @@ $prenotazioniOggi = $templateParams["prenotazioniOggi"];
         </div>
     </div>
     <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 shadow-sm border-0">
             <div class="card-body">
                 <p class="display-6 mb-0"><?php echo $numCampiChiusi; ?></p>
                 <p class="text-muted mb-0">Campi chiusi</p>
@@ -26,7 +26,7 @@ $prenotazioniOggi = $templateParams["prenotazioniOggi"];
         </div>
     </div>
     <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 shadow-sm border-0">
             <div class="card-body">
                 <p class="display-6 mb-0"><?php echo count($prenotazioniOggi); ?></p>
                 <p class="text-muted mb-0">Prenotazioni di oggi</p>
@@ -40,7 +40,7 @@ $prenotazioniOggi = $templateParams["prenotazioniOggi"];
 
 <?php if(count($prenotazioniOggi) === 0): ?>
 
-    <p class="text-muted">Nessuna prenotazione per oggi.</p>
+    <div class="shadow-sm rounded p-4 text-center text-muted bg-white">Nessuna prenotazione per oggi.</div>
 
 <?php else: ?>
 

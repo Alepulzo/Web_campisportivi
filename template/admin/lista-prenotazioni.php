@@ -33,7 +33,7 @@ $sezioni = [
 
         <?php if(count($sez["lista"]) === 0): ?>
 
-            <p class="text-muted mb-4">Nessuna prenotazione.</p>
+            <div class="shadow-sm rounded p-4 text-center text-muted bg-white mb-4">Nessuna prenotazione.</div>
 
         <?php else: ?>
 

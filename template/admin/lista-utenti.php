@@ -6,7 +6,7 @@
 
 <?php if(count($utenti) === 0): ?>
 
-    <p class="text-muted">Nessun utente.</p>
+    <div class="shadow-sm rounded p-4 text-center text-muted bg-white">Nessun utente.</div>
 
 <?php else: ?>
 

@@ -9,14 +9,14 @@
 
 <?php if(count($campi) === 0): ?>
 
-    <p class="text-muted">Nessun campo presente. Usa "Aggiungi campo" per crearne uno.</p>
+    <div class="shadow-sm rounded p-4 text-center text-muted bg-white">Nessun campo presente. Usa "Aggiungi campo" per crearne uno.</div>
 
 <?php else: ?>
 
     <div class="row g-3">
         <?php foreach($campi as $campo): ?>
         <div class="col-12 col-sm-6 col-lg-4">
-            <div class="card h-100">
+            <div class="card h-100 shadow-sm border-0">
                 <img src="<?php echo UPLOAD_URL . htmlspecialchars($campo["imgcampo"]); ?>"
                      class="card-img-top"
                      alt="Foto del campo <?php echo htmlspecialchars($campo["nomecampo"]); ?>" />
