@@ -1,49 +1,37 @@
-// GESTIONE PRENOTAZIONI (area admin)
-// Annulla una prenotazione SENZA ricaricare la pagina (come chiudi/riapri dei campi).
+// GESTIONE PRENOTAZIONI (area admin) — annulla una prenotazione senza ricaricare la pagina.
+document.querySelectorAll(".js-annulla-form").forEach(function (form) {
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!confirm("Vuoi davvero annullare questa prenotazione?")) return;
 
-document.addEventListener("DOMContentLoaded", function () {
-
-    // tutti i form "annulla" della tabella
-    var forms = document.querySelectorAll(".js-annulla-form");
-
-    forms.forEach(function (form) {
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // niente cambio pagina
-
-            if (!confirm("Vuoi davvero annullare questa prenotazione?")) {
-                return; // l'utente ha annullato
-            }
-
-            fetch(form.action, {
-                method: "POST",
-                body: new FormData(form)
-            })
-            .then(function (risposta) { return risposta.json(); })
-            .then(function (dati) {
-                if (!dati.success) {
-                    alert("Operazione non riuscita.");
-                    return;
-                }
-                aggiornaRiga(form);
-            })
-            .catch(function () {
-                alert("Errore di rete: riprova.");
-            });
-        });
+        const idprenotazione = form.querySelector('input[name="idprenotazione"]').value;
+        annullaPrenotazione(form, idprenotazione);
     });
+});
 
-    // Dopo l'annullamento: badge -> "Cancellata" e tolgo i bottoni.
-    function aggiornaRiga(form) {
-        var riga   = form.closest("tr");
-        var badge  = riga.querySelector(".js-stato-badge");
-        var azioni = riga.querySelector(".js-azioni");
+// manda i dati al server e aggiorna la riga
+async function annullaPrenotazione(form, idprenotazione) {
+    const formData = new FormData();
+    formData.append("idprenotazione", idprenotazione);
 
+    try {
+        const response = await fetch(form.action, { method: "POST", body: formData });
+        if (!response.ok) throw new Error(`Response status: ${response.status}`);
+        const json = await response.json();
+        if (!json.success) {
+            alert("Operazione non riuscita.");
+            return;
+        }
+
+        // badge -> Cancellata e tolgo i bottoni
+        const riga = form.closest("tr");
+        const badge = riga.querySelector(".js-stato-badge");
         badge.textContent = "Cancellata";
         badge.classList.remove("text-bg-success");
         badge.classList.add("text-bg-secondary");
-
-        if (azioni) {
-            azioni.remove(); // una prenotazione annullata non ha più azioni
-        }
+        const azioni = riga.querySelector(".js-azioni");
+        if (azioni) azioni.remove();
+    } catch (error) {
+        console.log(error.message);
     }
-});
+}
