@@ -37,10 +37,10 @@ $sezioni = [
 
         <?php else: ?>
 
-            <div class="table-responsive mb-4">
+            <div class="table-responsive mb-4 shadow-sm rounded bg-white">
                 <table class="table table-hover align-middle">
                     <caption class="visually-hidden"><?php echo $sez["titolo"]; ?></caption>
-                    <thead>
+                    <thead class="table-secondary">
                         <tr>
                             <th scope="col">Data</th>
                             <th scope="col">Orario</th>

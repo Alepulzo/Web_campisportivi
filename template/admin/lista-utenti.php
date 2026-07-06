@@ -10,10 +10,10 @@
 
 <?php else: ?>
 
-    <div class="table-responsive">
+    <div class="table-responsive shadow-sm rounded bg-white">
         <table class="table table-hover align-middle">
             <caption class="visually-hidden">Elenco degli utenti</caption>
-            <thead>
+            <thead class="table-secondary">
                 <tr>
                     <th scope="col">Nome</th>
                     <th scope="col">Cognome</th>

@@ -44,10 +44,10 @@ $prenotazioniOggi = $templateParams["prenotazioniOggi"];
 
 <?php else: ?>
 
-    <div class="table-responsive">
+    <div class="table-responsive shadow-sm rounded bg-white">
         <table class="table table-hover align-middle">
             <caption class="visually-hidden">Prenotazioni di oggi</caption>
-            <thead>
+            <thead class="table-secondary">
                 <tr>
                     <th scope="col">Orario</th>
                     <th scope="col">Campo</th>
