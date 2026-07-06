@@ -29,11 +29,22 @@ textarea:focus {
     --bs-nav-pills-link-active-bg: #212529;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
     #sidebarMenu {
         position: sticky;
         top: 56px;                    /* sotto l'header */
         height: calc(100vh - 56px);   /* piena altezza */
         overflow-y: auto;
+    }
+}
+
+/* Su mobile il menu si apre fisso in cima allo schermo */
+@media (width < 768px) {
+    #sidebarMenu {
+        position: fixed;
+        top: 56px;                    /* sotto l'header */
+        left: 0;
+        right: 0;
+        z-index: 1019;                /* così sta sopra il contenuto */
     }
 }
