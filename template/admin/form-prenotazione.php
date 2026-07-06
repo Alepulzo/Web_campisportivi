@@ -6,8 +6,10 @@ $campi        = $templateParams["campi"];
 $modifica     = !empty($prenotazione["idprenotazione"]);
 ?>
 
-<h1 class="h3 mb-4"><?php echo $modifica ? "Modifica prenotazione" : "Aggiungi prenotazione"; ?></h1>
+<h1 class="h3 pb-3 mb-4 border-bottom"><?php echo $modifica ? "Modifica prenotazione" : "Aggiungi prenotazione"; ?></h1>
 
+<div class="card shadow-sm border-0" style="max-width: 800px;">
+<div class="card-body">
 <?php if(!empty($templateParams["errore"])): ?>
     <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars($templateParams["errore"]); ?></div>
 <?php endif; ?>
@@ -76,3 +78,5 @@ $modifica     = !empty($prenotazione["idprenotazione"]);
         <a class="btn btn-outline-secondary" href="<?php echo BASE_URL; ?>admin/gestione-prenotazioni.php">Annulla</a>
     </div>
 </form>
+</div>
+</div>

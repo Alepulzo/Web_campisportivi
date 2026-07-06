@@ -1,6 +1,6 @@
 <?php /* Vista: lista utenti (admin) — elimina solo studenti, via AJAX. */ ?>
 
-<h1 class="h3 mb-4">Gestione utenti</h1>
+<h1 class="h3 pb-3 mb-4 border-bottom">Gestione utenti</h1>
 
 <?php $utenti = isset($templateParams["utenti"]) ? $templateParams["utenti"] : array(); ?>
 

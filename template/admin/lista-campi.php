@@ -1,6 +1,6 @@
 <?php /* Vista: lista dei campi (admin) — a card. */ ?>
 
-<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 pb-3 mb-4 border-bottom">
     <h1 class="h3 mb-0">Gestione campi</h1>
     <a class="btn btn-dark" href="<?php echo BASE_URL; ?>admin/gestisci-campo.php">Aggiungi campo</a>
 </div>

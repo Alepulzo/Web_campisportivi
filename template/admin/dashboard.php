@@ -5,7 +5,7 @@ $numCampiChiusi   = $templateParams["numCampiChiusi"];
 $prenotazioniOggi = $templateParams["prenotazioniOggi"];
 ?>
 
-<h1 class="h3 mb-4">Dashboard</h1>
+<h1 class="h3 pb-3 mb-4 border-bottom">Dashboard</h1>
 
 <!-- Riquadri con i numeri -->
 <div class="row g-3 mb-4">
