@@ -7,7 +7,7 @@ $sezioni = [
 ];
 ?>
 
-<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 pb-3 mb-4 border-bottom">
     <h1 class="h3 mb-0">Le mie prenotazioni</h1>
     <a class="btn btn-primary" href="<?php echo BASE_URL; ?>studente/campi.php">Prenota un campo</a>
 </div>

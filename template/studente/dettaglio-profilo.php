@@ -2,7 +2,7 @@
 /* Vista: profilo studente — dati personali (sola lettura). */
 $utente = $templateParams["utente"] ?? array();
 ?>
-<h1 class="h3 mb-4">Il mio profilo</h1>
+<h1 class="h3 pb-3 mb-4 border-bottom">Il mio profilo</h1>
 
 <dl class="row">
     <dt class="col-sm-3">Nome</dt>

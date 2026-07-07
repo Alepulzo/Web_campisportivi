@@ -5,7 +5,7 @@ $numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
 ?>
 
 <h1 class="h3 mb-1">Ciao, <?php echo htmlspecialchars($_SESSION["nome"]); ?>!</h1>
-<p class="text-muted mb-4">Ecco un riepilogo delle tue prenotazioni.</p>
+<p class="text-muted pb-3 mb-4 border-bottom">Ecco un riepilogo delle tue prenotazioni.</p>
 
 <div class="row g-3 mb-4">
     <div class="col-12 col-sm-6 col-lg-4">

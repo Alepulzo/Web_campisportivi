@@ -1,6 +1,6 @@
 <?php /* Vista: elenco campi prenotabili (studente). Solo campi aperti, niente colonna Stato. */ ?>
 
-<h1 class="h3 mb-4">Prenota un campo</h1>
+<h1 class="h3 pb-3 mb-4 border-bottom">Prenota un campo</h1>
 
 <?php $campi = $templateParams["campi"] ?? array(); ?>
 
