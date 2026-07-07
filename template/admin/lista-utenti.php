@@ -1,19 +1,19 @@
 <?php /* Vista: lista utenti (admin) — elimina solo studenti, via AJAX. */ ?>
 
-<h1 class="h3 mb-4">Gestione utenti</h1>
+<h1 class="h3 pb-3 mb-4 border-bottom">Gestione utenti</h1>
 
 <?php $utenti = isset($templateParams["utenti"]) ? $templateParams["utenti"] : array(); ?>
 
 <?php if(count($utenti) === 0): ?>
 
-    <p class="text-muted">Nessun utente.</p>
+    <div class="shadow-sm rounded p-4 text-center text-muted bg-white">Nessun utente.</div>
 
 <?php else: ?>
 
-    <div class="table-responsive">
+    <div class="table-responsive shadow-sm rounded bg-white">
         <table class="table table-hover align-middle">
             <caption class="visually-hidden">Elenco degli utenti</caption>
-            <thead>
+            <thead class="table-secondary">
                 <tr>
                     <th scope="col">Nome</th>
                     <th scope="col">Cognome</th>

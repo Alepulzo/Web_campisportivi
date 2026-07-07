@@ -5,8 +5,10 @@ $sport    = $templateParams["sport"];
 $modifica = !empty($campo["idcampo"]);
 ?>
 
-<h1 class="h3 mb-4"><?php echo $modifica ? "Modifica campo" : "Aggiungi campo"; ?></h1>
+<h1 class="h3 pb-3 mb-4 border-bottom"><?php echo $modifica ? "Modifica campo" : "Aggiungi campo"; ?></h1>
 
+<div class="card shadow-sm border-0" style="max-width: 800px;">
+<div class="card-body">
 <form method="post" action="<?php echo BASE_URL; ?>admin/processa-campo.php"
       enctype="multipart/form-data" class="row g-3">
 
@@ -97,7 +99,9 @@ $modifica = !empty($campo["idcampo"]);
     </div>
 
     <div class="col-12 d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Salva</button>
+        <button type="submit" class="btn btn-dark">Salva</button>
         <a class="btn btn-outline-secondary" href="<?php echo BASE_URL; ?>admin/gestione-campi.php">Annulla</a>
     </div>
 </form>
+</div>
+</div>

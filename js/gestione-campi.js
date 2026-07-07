@@ -1,66 +1,58 @@
-// GESTIONE CAMPI (area admin)
-// Permette di chiudere/riaprire un campo SENZA ricaricare la pagina.
+// GESTIONE CAMPI (area admin) — chiudi/riapri un campo senza ricaricare la pagina.
+document.querySelectorAll(".js-stato-form").forEach(function (form) {
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-document.addEventListener("DOMContentLoaded", function () {
+        // leggo i valori dal form
+        const idcampo = form.querySelector('input[name="idcampo"]').value;
+        const aperto  = form.querySelector('input[name="aperto"]').value;
 
-    // tutti i form chiudi/riapri della tabella
-    var forms = document.querySelectorAll(".js-stato-form");
+        // conferma (aperto vale "1" se sto per aprire)
+        const messaggio = aperto === "1"
+            ? "Vuoi davvero riaprire questo campo?"
+            : "Chiudendo il campo, le prenotazioni future verranno annullate. Continuare?";
+        if (!confirm(messaggio)) return;
 
-    forms.forEach(function (form) {
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // blocco l'invio normale: niente cambio pagina
-
-            // l'input "aperto" contiene il nuovo stato
-            var nuovoAperto = form.querySelector('input[name="aperto"]').value === "1";
-
-            // conferma: chiudendo un campo si annullano le sue prenotazioni future
-            var messaggio = nuovoAperto
-                ? "Vuoi davvero riaprire questo campo?"
-                : "Chiudendo il campo, le prenotazioni future verranno annullate. Continuare?";
-            if (!confirm(messaggio)) {
-                return; // l'utente ha annullato
-            }
-
-            // Mando i dati del form al server.
-            fetch(form.action, {
-                method: "POST",
-                body: new FormData(form)
-            })
-            .then(function (risposta) { return risposta.json(); })
-            .then(function (dati) {
-                if (!dati.success) {
-                    alert("Operazione non riuscita.");
-                    return;
-                }
-                aggiornaRiga(form, dati.aperto);
-            })
-            .catch(function () {
-                alert("Errore di rete: riprova.");
-            });
-        });
+        cambiaStato(form, idcampo, aperto);
     });
+});
 
-    // aggiorna badge, bottone e valore nascosto
-    function aggiornaRiga(form, aperto) {
-        var riga    = form.closest("tr");
-        var badge   = riga.querySelector(".js-stato-badge");
-        var bottone = form.querySelector(".js-stato-btn");
-        var input   = form.querySelector('input[name="aperto"]');
+// manda i dati al server e aggiorna la card
+async function cambiaStato(form, idcampo, aperto) {
+    const formData = new FormData();
+    formData.append("idcampo", idcampo);
+    formData.append("aperto", aperto);
 
-        if (aperto == 1) {
-            // Il campo ora è APERTO
+    try {
+        const response = await fetch(form.action, { method: "POST", body: formData });
+        if (!response.ok) throw new Error(`Response status: ${response.status}`);
+        const json = await response.json();
+        if (!json.success) {
+            alert("Operazione non riuscita.");
+            return;
+        }
+
+        // aggiorno badge, bottone e input nascosto della card
+        const badge   = form.closest(".card").querySelector(".js-stato-badge");
+        const bottone = form.querySelector(".js-stato-btn");
+        const input   = form.querySelector('input[name="aperto"]');
+
+        if (json.aperto == 1) {
+            // il campo ora è APERTO
             badge.textContent = "Aperto";
             badge.classList.remove("text-bg-secondary");
             badge.classList.add("text-bg-success");
             bottone.textContent = "Chiudi";
-            input.value = 0; // il prossimo click lo richiuderà
+            input.value = 0; // il prossimo click lo chiuderà
         } else {
-            // Il campo ora è CHIUSO
+            // il campo ora è CHIUSO
             badge.textContent = "Chiuso";
             badge.classList.remove("text-bg-success");
             badge.classList.add("text-bg-secondary");
             bottone.textContent = "Riapri";
             input.value = 1; // il prossimo click lo riaprirà
         }
+    } catch (error) {
+        console.log(error.message);
     }
-});
+}

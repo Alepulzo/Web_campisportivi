@@ -5,12 +5,12 @@ $numCampiChiusi   = $templateParams["numCampiChiusi"];
 $prenotazioniOggi = $templateParams["prenotazioniOggi"];
 ?>
 
-<h1 class="h3 mb-4">Dashboard</h1>
+<h1 class="h3 pb-3 mb-4 border-bottom">Dashboard</h1>
 
 <!-- Riquadri con i numeri -->
 <div class="row g-3 mb-4">
     <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 shadow-sm border-0">
             <div class="card-body">
                 <p class="display-6 mb-0"><?php echo $numCampi; ?></p>
                 <p class="text-muted mb-0">Campi</p>
@@ -18,7 +18,7 @@ $prenotazioniOggi = $templateParams["prenotazioniOggi"];
         </div>
     </div>
     <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 shadow-sm border-0">
             <div class="card-body">
                 <p class="display-6 mb-0"><?php echo $numCampiChiusi; ?></p>
                 <p class="text-muted mb-0">Campi chiusi</p>
@@ -26,7 +26,7 @@ $prenotazioniOggi = $templateParams["prenotazioniOggi"];
         </div>
     </div>
     <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 shadow-sm border-0">
             <div class="card-body">
                 <p class="display-6 mb-0"><?php echo count($prenotazioniOggi); ?></p>
                 <p class="text-muted mb-0">Prenotazioni di oggi</p>
@@ -40,14 +40,14 @@ $prenotazioniOggi = $templateParams["prenotazioniOggi"];
 
 <?php if(count($prenotazioniOggi) === 0): ?>
 
-    <p class="text-muted">Nessuna prenotazione per oggi.</p>
+    <div class="shadow-sm rounded p-4 text-center text-muted bg-white">Nessuna prenotazione per oggi.</div>
 
 <?php else: ?>
 
-    <div class="table-responsive">
+    <div class="table-responsive shadow-sm rounded bg-white">
         <table class="table table-hover align-middle">
             <caption class="visually-hidden">Prenotazioni di oggi</caption>
-            <thead>
+            <thead class="table-secondary">
                 <tr>
                     <th scope="col">Orario</th>
                     <th scope="col">Campo</th>

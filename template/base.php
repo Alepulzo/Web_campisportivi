@@ -19,7 +19,7 @@
     <a href="#contenuto" class="visually-hidden-focusable position-absolute top-0 start-0 m-2 btn btn-light">Salta al contenuto</a>
 
     <!-- ===== BARRA SUPERIORE: marchio + (su mobile) bottone per aprire il menu ===== -->
-    <header class="navbar navbar-dark bg-dark sticky-top">
+    <header class="navbar navbar-dark bg-dark sticky-top shadow-sm">
         <div class="container-fluid">
             <span class="navbar-brand mb-0">Campi Sportivi del Campus</span>
             <?php if(isUserLoggedIn()): ?>
@@ -37,12 +37,15 @@
 
             <?php if(isUserLoggedIn()): ?>
             <!-- ===== SIDEBAR (menu a sinistra) ===== -->
-            <nav id="sidebarMenu" class="col-12 col-md-3 col-lg-2 d-md-block bg-white border-end collapse p-3"
+            <nav id="sidebarMenu" class="col-12 col-md-3 col-lg-2 d-md-flex flex-column bg-white border-end shadow-sm collapse p-3"
                  aria-label="Menu principale">
 
-                <p class="text-muted small mb-3">Ciao, <strong><?php echo htmlspecialchars($_SESSION['nome']); ?></strong></p>
+                <!-- blocco utente: nome -->
+                <div class="mb-3 pb-3 border-bottom">
+                    <div class="fw-semibold"><?php echo htmlspecialchars($_SESSION['nome'] . ' ' . $_SESSION['cognome']); ?></div>
+                </div>
 
-                <ul class="nav flex-column">
+                <ul class="nav nav-pills flex-column gap-1">
                     <?php if(isAdmin()): ?>
                         <li class="nav-item"><a class="nav-link <?php isActive('home.php'); ?>" href="<?php echo BASE_URL; ?>admin/home.php">Dashboard</a></li>
                         <li class="nav-item"><a class="nav-link <?php isActive('gestione-campi.php'); ?>" href="<?php echo BASE_URL; ?>admin/gestione-campi.php">Gestione campi</a></li>
@@ -54,11 +57,9 @@
                         <li class="nav-item"><a class="nav-link <?php isActive('le-mie-prenotazioni.php'); ?>" href="<?php echo BASE_URL; ?>studente/le-mie-prenotazioni.php">Le mie prenotazioni</a></li>
                         <li class="nav-item"><a class="nav-link <?php isActive('profilo.php'); ?>" href="<?php echo BASE_URL; ?>studente/profilo.php">Profilo</a></li>
                     <?php endif; ?>
-
-                    <li class="nav-item border-top mt-2 pt-2">
-                        <a class="nav-link" href="<?php echo BASE_URL; ?>logout.php">Esci</a>
-                    </li>
                 </ul>
+
+                <a class="btn btn-outline-danger btn-sm mt-auto" href="<?php echo BASE_URL; ?>logout.php">Logout</a>
             </nav>
             <?php endif; ?>
 

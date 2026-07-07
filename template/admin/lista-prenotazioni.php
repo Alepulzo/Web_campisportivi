@@ -9,9 +9,9 @@ $sezioni = [
 ];
 ?>
 
-<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 pb-3 mb-4 border-bottom">
     <h1 class="h3 mb-0">Gestione prenotazioni</h1>
-    <a class="btn btn-primary" href="<?php echo BASE_URL; ?>admin/gestisci-prenotazione.php">Aggiungi prenotazione</a>
+    <a class="btn btn-dark" href="<?php echo BASE_URL; ?>admin/gestisci-prenotazione.php">Aggiungi prenotazione</a>
 </div>
 
 <?php foreach($sezioni as $i => $sez): ?>
@@ -33,14 +33,14 @@ $sezioni = [
 
         <?php if(count($sez["lista"]) === 0): ?>
 
-            <p class="text-muted mb-4">Nessuna prenotazione.</p>
+            <div class="shadow-sm rounded p-4 text-center text-muted bg-white mb-4">Nessuna prenotazione.</div>
 
         <?php else: ?>
 
-            <div class="table-responsive mb-4">
+            <div class="table-responsive mb-4 shadow-sm rounded bg-white">
                 <table class="table table-hover align-middle">
                     <caption class="visually-hidden"><?php echo $sez["titolo"]; ?></caption>
-                    <thead>
+                    <thead class="table-secondary">
                         <tr>
                             <th scope="col">Data</th>
                             <th scope="col">Orario</th>

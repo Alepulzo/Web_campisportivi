@@ -2,85 +2,84 @@
 // Riempie il menù "Orario" con le fasce da 1 ora LIBERE del campo nel giorno scelto.
 // Le chiede al server (api/disponibilita.php) via fetch, solo quando ci sono SIA campo SIA giorno.
 
-document.addEventListener("DOMContentLoaded", function () {
-    var selCampo  = document.getElementById("campo");
-    var inputData = document.getElementById("dataprenotazione");
-    var selOrario = document.getElementById("orario");
-    var inputId   = document.querySelector('input[name="idprenotazione"]');
-    if (!selCampo || !inputData || !selOrario) return;
+const selCampo  = document.getElementById("campo");
+const inputData = document.getElementById("dataprenotazione");
+const selOrario = document.getElementById("orario");
+const inputId   = document.querySelector('input[name="idprenotazione"]');
+const inputPartecipanti = document.getElementById("numpartecipanti");
+const capienzaHint      = document.getElementById("capienzaHint");
 
-    var url    = selOrario.getAttribute("data-url");
-    var scelto = selOrario.getAttribute("data-selezionato") || "";   // fascia attuale (in modifica)
+const url  = selOrario.getAttribute("data-url");
+let scelto = selOrario.getAttribute("data-selezionato") || "";   // fascia attuale (in modifica)
 
-    var inputPartecipanti = document.getElementById("numpartecipanti");
-    var capienzaHint      = document.getElementById("capienzaHint");
+function pad(n) { return (n < 10 ? "0" : "") + n; }
 
-    function pad(n) { return (n < 10 ? "0" : "") + n; }
+function messaggio(testo) {
+    selOrario.innerHTML = '<option value="">' + testo + '</option>';
+}
 
-    function messaggio(testo) {
-        selOrario.innerHTML = '<option value="">' + testo + '</option>';
+// mostra "Max N partecipanti" e imposta il limite in base al campo scelto
+function aggiornaCapienza() {
+    if (!inputPartecipanti) return;
+    const opt = selCampo.options[selCampo.selectedIndex];
+    const capienza = opt ? opt.getAttribute("data-capienza") : "";
+    if (capienza) {
+        inputPartecipanti.max = capienza;
+        if (capienzaHint) capienzaHint.textContent = "Max " + capienza + " partecipanti";
+    } else {
+        inputPartecipanti.removeAttribute("max");
+        if (capienzaHint) capienzaHint.textContent = "";
+    }
+}
+
+// costruisce le <option> come stringa HTML
+function generaOrari(slot) {
+    let html = '<option value="">— scegli —</option>';
+    for (let i = 0; i < slot.length; i++) {
+        const inizio = slot[i];
+        const h = parseInt(inizio.substring(0, 2), 10);
+        const selected = (inizio === scelto) ? " selected" : "";
+        html += `<option value="${inizio}"${selected}>${inizio}–${pad(h + 1)}:00</option>`;
+    }
+    return html;
+}
+
+// chiede al server gli orari liberi
+async function caricaOrari() {
+    const campo = selCampo.value;
+    const data  = inputData.value;
+
+    // finché non scelgo sia campo sia giorno, non posso scegliere l'orario
+    if (!campo || !data) {
+        messaggio("— scegli campo e giorno —");
+        return;
     }
 
-    // mostra "Max N partecipanti" e imposta il limite in base al campo scelto
-    function aggiornaCapienza() {
-        if (!inputPartecipanti) return;
-        var opt = selCampo.options[selCampo.selectedIndex];
-        var capienza = opt ? opt.getAttribute("data-capienza") : "";
-        if (capienza) {
-            inputPartecipanti.max = capienza;
-            if (capienzaHint) capienzaHint.textContent = "Max " + capienza + " partecipanti";
-        } else {
-            inputPartecipanti.removeAttribute("max");
-            if (capienzaHint) capienzaHint.textContent = "";
-        }
-    }
+    const escludi   = (inputId && inputId.value) ? inputId.value : "0";  // in modifica ignoro me stessa
+    const richiesta = url + "?campo=" + encodeURIComponent(campo)
+                        + "&data=" + encodeURIComponent(data)
+                        + "&escludi=" + encodeURIComponent(escludi);
 
-    function caricaOrari() {
-        var campo = selCampo.value;
-        var data  = inputData.value;
+    try {
+        const response = await fetch(richiesta);
+        if (!response.ok) throw new Error(`Response status: ${response.status}`);
+        const json = await response.json();
 
-        // finché non scelgo sia campo sia giorno, non posso scegliere l'orario
-        if (!campo || !data) {
-            messaggio("— scegli campo e giorno —");
+        const slot = json.slot || [];
+        if (slot.length === 0) {
+            messaggio("Nessuna fascia disponibile");
             return;
         }
-
-        var escludi   = (inputId && inputId.value) ? inputId.value : "0";  // in modifica ignoro me stessa
-        var richiesta = url + "?campo=" + encodeURIComponent(campo)
-                            + "&data=" + encodeURIComponent(data)
-                            + "&escludi=" + encodeURIComponent(escludi);
-
-        fetch(richiesta)
-            .then(function (r) { return r.json(); })
-            .then(function (dati) {
-                var slot = dati.slot || [];
-                if (slot.length === 0) {
-                    messaggio("Nessuna fascia disponibile");
-                    return;
-                }
-                selOrario.innerHTML = "";
-                var def = document.createElement("option");
-                def.value = "";
-                def.textContent = "— scegli —";
-                selOrario.appendChild(def);
-
-                slot.forEach(function (inizio) {
-                    var h = parseInt(inizio.substring(0, 2), 10);
-                    var o = document.createElement("option");
-                    o.value = inizio;
-                    o.textContent = inizio + "–" + pad(h + 1) + ":00";
-                    if (inizio === scelto) o.selected = true;
-                    selOrario.appendChild(o);
-                });
-            })
-            .catch(function () { messaggio("Errore nel caricamento"); });
+        selOrario.innerHTML = generaOrari(slot);
+    } catch (error) {
+        messaggio("Errore nel caricamento");
     }
+}
 
-    // ricarico quando cambio campo o giorno (dopo un cambio non tengo la vecchia selezione)
-    selCampo.addEventListener("change",  function () { scelto = ""; aggiornaCapienza(); caricaOrari(); });
-    inputData.addEventListener("change", function () { scelto = ""; caricaOrari(); });
+// ricarico quando cambio campo o giorno (dopo un cambio non tengo la vecchia selezione)
+selCampo.addEventListener("change",  function () { scelto = ""; aggiornaCapienza(); caricaOrari(); });
+inputData.addEventListener("change", function () { scelto = ""; caricaOrari(); });
 
-    // all'avvio: in modifica campo e giorno sono già pieni -> carico subito
-    aggiornaCapienza();
-    caricaOrari();
-});
+// all'avvio: in modifica campo e giorno sono già pieni -> carico subito
+aggiornaCapienza();
+caricaOrari();
