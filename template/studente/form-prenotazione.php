@@ -57,7 +57,7 @@ $modifica     = !empty($prenotazione["idprenotazione"]);
     </div>
 
     <div class="col-12 d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Salva</button>
+        <button type="submit" class="btn btn-dark">Salva</button>
         <a class="btn btn-outline-secondary" href="<?php echo BASE_URL; ?>studente/campi.php">Annulla</a>
     </div>
 </form>

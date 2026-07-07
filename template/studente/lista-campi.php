@@ -32,7 +32,7 @@
                     <div class="d-flex flex-wrap gap-1 mt-auto">
                         <a class="btn btn-sm btn-outline-secondary"
                            href="<?php echo BASE_URL; ?>studente/campo.php?id=<?php echo $campo["idcampo"]; ?>">Descrizione</a>
-                        <a class="btn btn-sm btn-primary"
+                        <a class="btn btn-sm btn-dark"
                            href="<?php echo BASE_URL; ?>studente/gestisci-prenotazione.php?campo=<?php echo $campo["idcampo"]; ?>">Prenota</a>
                     </div>
                 </div>
