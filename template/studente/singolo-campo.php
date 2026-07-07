@@ -33,6 +33,6 @@ $campo = $templateParams["campo"] ?? array();
             <p><?php echo nl2br(htmlspecialchars($campo["descrizionecampo"])); ?></p>
         <?php endif; ?>
 
-        <a class="btn btn-primary" href="<?php echo BASE_URL; ?>studente/gestisci-prenotazione.php?campo=<?php echo $campo["idcampo"]; ?>">Prenota</a>
+        <a class="btn btn-dark" href="<?php echo BASE_URL; ?>studente/gestisci-prenotazione.php?campo=<?php echo $campo["idcampo"]; ?>">Prenota</a>
     </div>
 </div>
