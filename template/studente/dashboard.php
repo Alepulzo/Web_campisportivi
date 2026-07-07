@@ -1,7 +1,7 @@
 <?php
 /* Vista: dashboard studente (benvenuto + prossime prenotazioni + conteggio). */
-$prossime        = $templateParams["prossime"];
-$numPrenotazioni = $templateParams["numPrenotazioni"];
+$prossime        = $templateParams["prossime"] ?? [];
+$numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
 ?>
 
 <h1 class="h3 mb-1">Ciao, <?php echo htmlspecialchars($_SESSION["nome"]); ?>!</h1>

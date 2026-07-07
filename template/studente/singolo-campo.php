@@ -1,6 +1,6 @@
 <?php
 /* Vista: dettaglio di un singolo campo (studente). */
-$campo = $templateParams["campo"];
+$campo = $templateParams["campo"] ?? array();
 ?>
 
 <h1 class="h3 mb-4"><?php echo htmlspecialchars($campo["nomecampo"]); ?></h1>

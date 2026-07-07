@@ -1,6 +1,6 @@
 <?php
 /* Vista: profilo studente — dati personali (sola lettura). */
-$utente = $templateParams["utente"];
+$utente = $templateParams["utente"] ?? array();
 ?>
 <h1 class="h3 mb-4">Il mio profilo</h1>
 

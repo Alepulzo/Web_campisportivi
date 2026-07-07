@@ -1,9 +1,9 @@
 <?php
 /* Vista: le mie prenotazioni (studente) — oggi, future, passate (a tendina). */
 $sezioni = [
-    ["titolo" => "Prenotazioni di oggi", "lista" => $templateParams["oggi"],    "azioni" => true,  "collassabile" => false],
-    ["titolo" => "Prenotazioni future",  "lista" => $templateParams["future"],  "azioni" => true,  "collassabile" => false],
-    ["titolo" => "Prenotazioni passate", "lista" => $templateParams["passate"], "azioni" => false, "collassabile" => true],
+    ["titolo" => "Prenotazioni di oggi", "lista" => $templateParams["oggi"]    ?? array(), "azioni" => true,  "collassabile" => false],
+    ["titolo" => "Prenotazioni future",  "lista" => $templateParams["future"]  ?? array(), "azioni" => true,  "collassabile" => false],
+    ["titolo" => "Prenotazioni passate", "lista" => $templateParams["passate"] ?? array(), "azioni" => false, "collassabile" => true],
 ];
 ?>
 

@@ -2,8 +2,8 @@
 /* Vista: form prenotazione studente (nuova o modifica). Niente scelta studente/campo:
    il campo è già deciso e arriva come <select> con UNA sola opzione, così
    js/form-prenotazione.js (pensato per l'admin) funziona senza modifiche. */
-$prenotazione = $templateParams["prenotazione"];
-$campo        = $templateParams["campo"];
+$prenotazione = $templateParams["prenotazione"] ?? array();
+$campo        = $templateParams["campo"] ?? array();
 $modifica     = !empty($prenotazione["idprenotazione"]);
 ?>
 
