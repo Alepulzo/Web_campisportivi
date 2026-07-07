@@ -28,7 +28,7 @@ $numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
 
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
     <h2 class="h5 mb-0">Prossime prenotazioni</h2>
-    <a class="btn btn-primary btn-sm" href="<?php echo BASE_URL; ?>studente/campi.php">Prenota un campo</a>
+    <a class="btn btn-dark btn-sm" href="<?php echo BASE_URL; ?>studente/campi.php">Prenota un campo</a>
 </div>
 
 <?php if(count($prossime) === 0): ?>
