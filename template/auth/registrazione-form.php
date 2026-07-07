@@ -1,9 +1,9 @@
 <?php /* VISTA: form di registrazione (dentro <main>). */ ?>
-<div class="row justify-content-center">
+<div class="row justify-content-center align-items-center" style="min-height: 75vh;">
     <div class="col-12 col-sm-10 col-md-8 col-lg-6">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <h1 class="h4 text-center mb-4">Registrati</h1>
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+                <h1 class="h4 text-center pb-3 mb-4 border-bottom">Registrati</h1>
 
                 <?php if(isset($templateParams["errore"])): ?>
                 <div class="alert alert-danger" role="alert"><?php echo $templateParams["errore"]; ?></div>
@@ -23,7 +23,7 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Email istituzionale</label>
                         <input type="email" class="form-control" id="email" name="email" autocomplete="email" placeholder="nome.cognome@studio.unibo.it" aria-describedby="emailHelp" required />
-                        <div id="emailHelp" class="form-text">Usa la tua email che finisce con <strong>@studio.unibo.it</strong>.</div>
+                        <div id="emailHelp" class="form-text">Usa la tua email istituzionale.</div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -35,7 +35,7 @@
                             <input type="password" class="form-control" id="conferma" name="conferma" autocomplete="new-password" required />
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Crea account</button>
+                    <button type="submit" class="btn btn-dark w-100">Crea account</button>
                 </form>
 
                 <p class="text-center mt-3 mb-0">
