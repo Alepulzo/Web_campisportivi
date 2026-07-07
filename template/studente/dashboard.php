@@ -40,7 +40,7 @@ $numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
     <div class="table-responsive">
         <table class="table table-hover align-middle">
             <caption class="visually-hidden">Prossime prenotazioni</caption>
-            <thead>
+            <thead class="table-secondary">
                 <tr>
                     <th scope="col">Data</th>
                     <th scope="col">Orario</th>
