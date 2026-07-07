@@ -9,7 +9,7 @@ $numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
 
 <div class="row g-3 mb-4">
     <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 shadow-sm border-0">
             <div class="card-body">
                 <p class="display-6 mb-0"><?php echo $numPrenotazioni; ?></p>
                 <p class="text-muted mb-0">Prenotazioni confermate</p>
@@ -17,7 +17,7 @@ $numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
         </div>
     </div>
     <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card text-center h-100">
+        <div class="card text-center h-100 shadow-sm border-0">
             <div class="card-body">
                 <p class="display-6 mb-0"><?php echo count($prossime); ?></p>
                 <p class="text-muted mb-0">Prossime prenotazioni</p>
