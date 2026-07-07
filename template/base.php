@@ -59,7 +59,7 @@
                     <?php endif; ?>
                 </ul>
 
-                <a class="btn btn-outline-danger btn-sm mt-auto" href="<?php echo BASE_URL; ?>logout.php">Logout</a>
+                <a class="btn btn-outline-danger btn-sm mt-4 mt-md-auto" href="<?php echo BASE_URL; ?>logout.php">Logout</a>
             </nav>
             <?php endif; ?>
 
