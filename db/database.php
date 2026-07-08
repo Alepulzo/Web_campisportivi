@@ -64,6 +64,23 @@ class DatabaseHelper{
         return count($result) === 1 ? $result[0] : null;
     }
 
+    // Verifica la password attuale di un utente dato il suo id (serve per il cambio password dal profilo).
+    public function checkPasswordById($idutente, $password){
+        $stmt = $this->db->prepare("SELECT password FROM utente WHERE idutente = ?");
+        $stmt->bind_param('i', $idutente);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return count($result) === 1 && password_verify($password, $result[0]["password"]);
+    }
+
+    // Cambia la password di un utente. Viene salvata come hash sicuro, mai in chiaro.
+    public function updatePassword($idutente, $nuovaPassword){
+        $hash = password_hash($nuovaPassword, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare("UPDATE utente SET password = ? WHERE idutente = ?");
+        $stmt->bind_param('si', $hash, $idutente);
+        return $stmt->execute();
+    }
+
     // CAMPI (lettura)
 
     // Ritorna TUTTI i campi con il nome dello sport ordinati per nome.
