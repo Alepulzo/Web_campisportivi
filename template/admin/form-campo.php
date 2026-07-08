@@ -60,14 +60,22 @@ $modifica = !empty($campo["idcampo"]);
 
     <div class="col-12 col-md-6">
         <label for="orarioapertura" class="form-label">Orario di apertura</label>
-        <input type="time" class="form-control" id="orarioapertura" name="orarioapertura"
-               required value="<?php echo htmlspecialchars($campo["orarioapertura"]); ?>" />
+        <select class="form-select" id="orarioapertura" name="orarioapertura" required>
+            <option value="">— scegli —</option>
+            <?php for($h = 0; $h <= 23; $h++): $ora = str_pad($h, 2, "0", STR_PAD_LEFT) . ":00"; ?>
+                <option value="<?php echo $ora; ?>" <?php echo (substr($campo["orarioapertura"], 0, 5) === $ora) ? "selected" : ""; ?>><?php echo $ora; ?></option>
+            <?php endfor; ?>
+        </select>
     </div>
 
     <div class="col-12 col-md-6">
         <label for="orariochiusura" class="form-label">Orario di chiusura</label>
-        <input type="time" class="form-control" id="orariochiusura" name="orariochiusura"
-               required value="<?php echo htmlspecialchars($campo["orariochiusura"]); ?>" />
+        <select class="form-select" id="orariochiusura" name="orariochiusura" required>
+            <option value="">— scegli —</option>
+            <?php for($h = 0; $h <= 23; $h++): $ora = str_pad($h, 2, "0", STR_PAD_LEFT) . ":00"; ?>
+                <option value="<?php echo $ora; ?>" <?php echo (substr($campo["orariochiusura"], 0, 5) === $ora) ? "selected" : ""; ?>><?php echo $ora; ?></option>
+            <?php endfor; ?>
+        </select>
     </div>
 
     <div class="col-12">
