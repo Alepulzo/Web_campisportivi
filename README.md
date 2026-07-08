@@ -110,4 +110,4 @@ Schema in `db/creazione_db.sql`, dati di prova in `db/inserisci_dati.sql`.
 - **`relazione-progettazione.pdf`** — la relazione di design (personas, scenarios, principi Mobile First / User Centered / Accessibile)
 
 ## Autori
-Progetto per il corso di **Tecnologie Web** — *(inserire nomi e cognomi del gruppo)*.
+Progetto per il corso di **Tecnologie Web** — Alessio Pulzoni e Gianmarco Spinaci.
