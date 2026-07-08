@@ -18,4 +18,4 @@ $utente = $templateParams["utente"] ?? array();
     <dd class="col-sm-9"><?php echo date("d/m/Y", strtotime($utente["dataregistrazione"])); ?></dd>
 </dl>
 
-<a class="btn btn-dark" href="<?php echo BASE_URL; ?>studente/cambio-password.php">Cambia password</a>
+<a class="btn btn-dark mt-4" href="<?php echo BASE_URL; ?>studente/cambio-password.php">Cambia password</a>
