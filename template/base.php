@@ -18,6 +18,9 @@
     <!-- Link "salta al contenuto" per l'accessibilità da tastiera -->
     <a href="#contenuto" class="visually-hidden-focusable position-absolute top-0 start-0 m-2 btn btn-light">Salta al contenuto</a>
 
+    <!-- Zona annunci: il JS ci scrive l'esito delle azioni AJAX, lo screen reader lo legge -->
+    <div id="annuncio" class="visually-hidden" aria-live="polite"></div>
+
     <!-- ===== BARRA SUPERIORE: marchio + (su mobile) bottone per aprire il menu ===== -->
     <header class="navbar navbar-dark bg-dark sticky-top shadow-sm">
         <div class="container-fluid">

@@ -31,6 +31,9 @@ async function annullaPrenotazione(form, idprenotazione) {
         badge.classList.add("text-bg-secondary");
         const azioni = riga.querySelector(".js-azioni");
         if (azioni) azioni.remove();
+
+        // annuncio per lo screen reader
+        document.getElementById("annuncio").textContent = "Prenotazione annullata";
     } catch (error) {
         console.log(error.message);
     }

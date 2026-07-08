@@ -23,6 +23,9 @@ async function eliminaUtente(form, idutente) {
             return;
         }
         form.closest("tr").remove(); // tolgo la riga dalla tabella
+
+        // annuncio per lo screen reader
+        document.getElementById("annuncio").textContent = "Utente eliminato";
     } catch (error) {
         console.log(error.message);
     }

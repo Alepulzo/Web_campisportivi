@@ -52,6 +52,9 @@ async function cambiaStato(form, idcampo, aperto) {
             bottone.textContent = "Riapri";
             input.value = 1; // il prossimo click lo riaprirà
         }
+
+        // annuncio per lo screen reader
+        document.getElementById("annuncio").textContent = json.aperto == 1 ? "Campo riaperto" : "Campo chiuso";
     } catch (error) {
         console.log(error.message);
     }
