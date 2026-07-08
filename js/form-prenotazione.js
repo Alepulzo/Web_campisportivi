@@ -50,8 +50,9 @@ async function caricaOrari() {
     const data  = inputData.value;
 
     // finché non scelgo sia campo sia giorno, non posso scegliere l'orario
+    // (data-msg-vuoto permette di personalizzare il messaggio quando il campo è già fisso, es. studente)
     if (!campo || !data) {
-        messaggio("— scegli campo e giorno —");
+        messaggio(selOrario.getAttribute("data-msg-vuoto") || "— scegli campo e giorno —");
         return;
     }
 
