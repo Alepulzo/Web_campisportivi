@@ -16,7 +16,7 @@ $sezioni = [
 
     <?php if($sez["collassabile"]): ?>
         <h2 class="h5 mb-3">
-            <button class="btn btn-outline-secondary btn-sm" type="button"
+            <button class="btn btn-outline-dark btn-sm" type="button"
                     data-bs-toggle="collapse" data-bs-target="#sezione<?php echo $i; ?>"
                     aria-expanded="false" aria-controls="sezione<?php echo $i; ?>">
                 <?php echo $sez["titolo"]; ?> (<?php echo count($sez["lista"]); ?>)
