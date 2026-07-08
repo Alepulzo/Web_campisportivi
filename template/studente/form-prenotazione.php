@@ -9,7 +9,7 @@ $modifica     = !empty($prenotazione["idprenotazione"]);
 
 <h1 class="h3 pb-3 mb-4 border-bottom"><?php echo $modifica ? "Modifica prenotazione" : "Prenota un campo"; ?></h1>
 
-<div class="card shadow-sm border-0" style="max-width: 1200px;">
+<div class="card shadow-sm border-0" style="max-width: 800px;">
 <div class="card-body">
 <?php if(!empty($templateParams["errore"])): ?>
     <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars($templateParams["errore"]); ?></div>

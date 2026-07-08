@@ -6,7 +6,7 @@
                 <h1 class="h4 text-center pb-3 mb-4 border-bottom">Registrati</h1>
 
                 <?php if(isset($templateParams["errore"])): ?>
-                <div class="alert alert-danger" role="alert"><?php echo $templateParams["errore"]; ?></div>
+                <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars($templateParams["errore"]); ?></div>
                 <?php endif; ?>
 
                 <form action="<?php echo BASE_URL; ?>registrazione.php" method="POST">

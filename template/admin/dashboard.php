@@ -44,8 +44,8 @@ $prenotazioniOggi = $templateParams["prenotazioniOggi"];
 
 <?php else: ?>
 
-    <div class="table-responsive shadow-sm rounded bg-white">
-        <table class="table table-hover align-middle">
+    <div class="table-responsive overflow-y-hidden shadow-sm rounded bg-white">
+        <table class="table table-hover align-middle mb-0">
             <caption class="visually-hidden">Prenotazioni di oggi</caption>
             <thead class="table-secondary">
                 <tr>

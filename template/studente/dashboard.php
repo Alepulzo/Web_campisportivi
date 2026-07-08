@@ -33,12 +33,12 @@ $numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
 
 <?php if(count($prossime) === 0): ?>
 
-    <p class="shadow-sm rounded p-4 text-center text-muted bg-white">Nessuna prenotazione in programma.</p>
+    <div class="shadow-sm rounded p-4 text-center text-muted bg-white">Nessuna prenotazione in programma.</div>
 
 <?php else: ?>
 
-    <div class="table-responsive">
-        <table class="table table-hover align-middle">
+    <div class="table-responsive overflow-y-hidden shadow-sm rounded bg-white">
+        <table class="table table-hover align-middle mb-0">
             <caption class="visually-hidden">Prossime prenotazioni</caption>
             <thead class="table-secondary">
                 <tr>

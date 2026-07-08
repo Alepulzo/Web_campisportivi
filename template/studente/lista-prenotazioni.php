@@ -30,12 +30,12 @@ $sezioni = [
 
         <?php if(count($sez["lista"]) === 0): ?>
 
-            <p class="shadow-sm rounded p-4 text-center text-muted bg-white">Nessuna prenotazione.</p>
+            <div class="shadow-sm rounded p-4 text-center text-muted bg-white mb-4">Nessuna prenotazione.</div>
 
         <?php else: ?>
 
-            <div class="table-responsive mb-4 rounded">
-                <table class="table table-hover align-middle">
+            <div class="table-responsive mb-4 overflow-y-hidden shadow-sm rounded bg-white">
+                <table class="table table-hover align-middle mb-0">
                     <caption class="visually-hidden"><?php echo $sez["titolo"]; ?></caption>
                     <thead class="table-secondary">
                         <tr>

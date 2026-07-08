@@ -10,8 +10,8 @@
 
 <?php else: ?>
 
-    <div class="table-responsive shadow-sm rounded bg-white">
-        <table class="table table-hover align-middle">
+    <div class="table-responsive overflow-y-hidden shadow-sm rounded bg-white">
+        <table class="table table-hover align-middle mb-0">
             <caption class="visually-hidden">Elenco degli utenti</caption>
             <thead class="table-secondary">
                 <tr>

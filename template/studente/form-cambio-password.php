@@ -1,7 +1,7 @@
 <?php /* Vista: pagina cambio password. */ ?>
 <h1 class="h3 pb-3 mb-4 border-bottom">Cambia password</h1>
 
-<div class="card shadow-sm border-0" style="max-width: 1200px;">
+<div class="card shadow-sm border-0" style="max-width: 800px;">
 <div class="card-body">
     <?php if(isset($templateParams["errore_password"])): ?>
     <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars($templateParams["errore_password"]); ?></div>

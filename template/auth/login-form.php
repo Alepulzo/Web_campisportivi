@@ -6,7 +6,7 @@
                 <h1 class="h4 text-center pb-3 mb-4 border-bottom">Accedi</h1>
 
                 <?php if(isset($templateParams["errorelogin"])): ?>
-                <div class="alert alert-danger" role="alert"><?php echo $templateParams["errorelogin"]; ?></div>
+                <div class="alert alert-danger" role="alert"><?php echo htmlspecialchars($templateParams["errorelogin"]); ?></div>
                 <?php endif; ?>
 
                 <form action="<?php echo BASE_URL; ?>index.php" method="POST">
