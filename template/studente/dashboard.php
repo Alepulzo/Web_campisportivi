@@ -2,6 +2,7 @@
 /* Vista: dashboard studente (benvenuto + prossime prenotazioni + conteggio). */
 $prossime        = $templateParams["prossime"] ?? [];
 $numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
+$numCampiAperti  = $templateParams["numCampiAperti"] ?? 0;
 ?>
 
 <h1 class="h3 mb-1">Ciao, <?php echo htmlspecialchars($_SESSION["nome"]); ?>!</h1>
@@ -21,6 +22,14 @@ $numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
             <div class="card-body">
                 <p class="display-6 mb-0"><?php echo count($prossime); ?></p>
                 <p class="text-muted mb-0">Prossime prenotazioni</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-4">
+        <div class="card text-center h-100 shadow-sm border-0">
+            <div class="card-body">
+                <p class="display-6 mb-0"><?php echo $numCampiAperti; ?></p>
+                <p class="text-muted mb-0">Campi disponibili</p>
             </div>
         </div>
     </div>

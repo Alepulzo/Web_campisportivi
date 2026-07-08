@@ -225,6 +225,13 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0]["n"];
     }
 
+    // Numero di campi aperti (prenotabili).
+    public function countCampiAperti(){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS n FROM campo WHERE aperto = 1");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0]["n"];
+    }
+
     /* ===================== PRENOTAZIONI ===================== */
 
     // Tutte le prenotazioni con studente e campo, ordinate per data.
