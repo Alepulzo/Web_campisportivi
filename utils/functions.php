@@ -74,6 +74,10 @@ function uploadImage($file){
     if(!isset($file) || !isset($file["error"]) || $file["error"] !== UPLOAD_ERR_OK){
         return null;
     }
+    // controllo che sia DAVVERO un'immagine (non mi fido del tipo dichiarato dal browser)
+    if(getimagesize($file["tmp_name"]) === false){
+        return null;
+    }
     // accetto solo alcuni tipi di immagine
     $permesse = ["image/jpeg", "image/png", "image/webp"];
     if(!in_array($file["type"], $permesse)){
