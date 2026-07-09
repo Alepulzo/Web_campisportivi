@@ -14,6 +14,7 @@ $templateParams["nome"]             = "studente/dashboard.php";
 $templateParams["prossime"]         = $dbh->getProssimePrenotazioni($idutente, 5);
 $templateParams["numPrenotazioni"]  = $dbh->countPrenotazioniByUser($idutente);
 $templateParams["numCampiAperti"]   = $dbh->countCampiAperti();
+$templateParams["numProssime"]      = $dbh->countProssimePrenotazioni($idutente);
 
 require __DIR__ . '/../template/base.php';
 ?>

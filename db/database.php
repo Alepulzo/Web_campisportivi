@@ -371,6 +371,14 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0]["n"];
     }
 
+    // Numero di prenotazioni future confermate di uno studente (per la card della dashboard).
+    public function countProssimePrenotazioni($idutente){
+        $stmt = $this->db->prepare("SELECT COUNT(*) AS n FROM prenotazione WHERE utente = ? AND stato = 'confermata' AND dataprenotazione >= CURDATE()");
+        $stmt->bind_param('i', $idutente);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0]["n"];
+    }
+
     // Lo studente annulla una SUA prenotazione: mette stato = 'cancellata' solo se è sua.
     public function annullaPrenotazione($idprenotazione, $idutente){
         $stmt = $this->db->prepare("UPDATE prenotazione SET stato = 'cancellata' WHERE idprenotazione = ? AND utente = ?");

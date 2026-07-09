@@ -3,6 +3,7 @@
 $prossime        = $templateParams["prossime"] ?? [];
 $numPrenotazioni = $templateParams["numPrenotazioni"] ?? 0;
 $numCampiAperti  = $templateParams["numCampiAperti"] ?? 0;
+$numProssime     = $templateParams["numProssime"] ?? 0;
 ?>
 
 <h1 class="h3 mb-1">Ciao, <?php echo htmlspecialchars($_SESSION["nome"]); ?>!</h1>
@@ -20,7 +21,7 @@ $numCampiAperti  = $templateParams["numCampiAperti"] ?? 0;
     <div class="col-12 col-sm-6 col-lg-4">
         <div class="card text-center h-100 shadow-sm border-0">
             <div class="card-body">
-                <p class="display-6 mb-0"><?php echo count($prossime); ?></p>
+                <p class="display-6 mb-0"><?php echo $numProssime; ?></p>
                 <p class="text-muted mb-0">Prossime prenotazioni</p>
             </div>
         </div>
@@ -36,7 +37,7 @@ $numCampiAperti  = $templateParams["numCampiAperti"] ?? 0;
 </div>
 
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-    <h2 class="h5 mb-0">Prossime prenotazioni</h2>
+    <h2 class="h5 mb-0">Le tue prossime 5 prenotazioni</h2>
     <a class="btn btn-dark btn-sm" href="<?php echo BASE_URL; ?>studente/campi.php">Prenota un campo</a>
 </div>
 
