@@ -24,9 +24,14 @@ textarea:focus {
    (coerente con header e footer scuri) */
 #sidebarMenu .nav-pills {
     --bs-nav-link-color: #212529;
-    --bs-nav-link-hover-color: #000;
+    --bs-nav-link-hover-color: #212529;   /* resta scuro sull'hover: evita il blu di default di Bootstrap */
     --bs-nav-pills-link-active-color: #fff;
     --bs-nav-pills-link-active-bg: #212529;
+}
+
+/* Voce non attiva: sfondo grigio chiaro al passaggio del mouse (feedback "cliccabile") */
+#sidebarMenu .nav-link:not(.active):hover {
+    background-color: #e9ecef;
 }
 
 @media (width >= 768px) {
