@@ -1,3 +1,4 @@
 # Foto caricate dagli admin durante l'uso: restano solo in locale, non nel repo.
 # Le foto del seed (beachvolley.jpg, padel-a.jpg, ...) invece si tengono.
 upload/campo_*
+*.pdf
