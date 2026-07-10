@@ -18,7 +18,7 @@ $idutente       = $_SESSION["idutente"];   // MAI dal POST: lo studente prenota 
 $idprenotazione = isset($_POST["idprenotazione"]) ? intval($_POST["idprenotazione"]) : 0;
 $azione         = $_POST["azione"] ?? "prenota";
 
-// ---- ANNULLA una prenotazione propria ----
+// ANNULLA una prenotazione propria 
 if($azione === "annulla"){
     if($idprenotazione > 0){
         $dbh->annullaPrenotazione($idprenotazione, $idutente);
@@ -27,7 +27,7 @@ if($azione === "annulla"){
     exit;
 }
 
-// ---- PRENOTA (nuova) o MODIFICA ----
+// PRENOTA (nuova) o MODIFICA
 $campo           = intval($_POST["campo"] ?? 0);
 $data            = $_POST["dataprenotazione"] ?? "";
 $orario          = $_POST["orario"] ?? "";   // ora di inizio della fascia (es. "14:00")

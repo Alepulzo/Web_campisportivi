@@ -21,7 +21,7 @@
     <!-- Zona annunci: il JS ci scrive l'esito delle azioni AJAX, lo screen reader lo legge -->
     <div id="annuncio" class="visually-hidden" aria-live="polite"></div>
 
-    <!-- ===== BARRA SUPERIORE: marchio + (su mobile) bottone per aprire il menu ===== -->
+    <!-- BARRA SUPERIORE: marchio + (su mobile) bottone per aprire il menu -->
     <header class="navbar navbar-dark bg-dark sticky-top shadow-sm">
         <div class="container-fluid">
             <span class="navbar-brand mb-0">Campi Sportivi del Campus</span>
