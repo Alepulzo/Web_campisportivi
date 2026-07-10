@@ -1,14 +1,5 @@
 <?php
-/* ============================================================
- * bootstrap.php  —  FILE DI AVVIO (incluso da OGNI pagina)
- * ------------------------------------------------------------
- * Le pagine stanno in sottocartelle (studente/, admin/, api/),
- * quindi:
- *   - i percorsi dei file usano __DIR__ (percorso assoluto su disco)
- *     così funzionano da qualunque cartella;
- *   - i percorsi web (link, css, js, immagini) usano BASE_URL
- *     così puntano sempre alla radice del sito, non alla sottocartella.
- * ============================================================ */
+/* bootstrap.php — avvio incluso da ogni pagina: sessione, costanti, connessione al DB. */
 
 session_start();
 

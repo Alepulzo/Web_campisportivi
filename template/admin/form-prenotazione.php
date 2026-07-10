@@ -56,8 +56,7 @@ $modifica     = !empty($prenotazione["idprenotazione"]);
 
     <div class="col-12 col-md-4">
         <label for="orario" class="form-label">Orario</label>
-        <!-- si riempie via AJAX (js/form-prenotazione.js) con le fasce LIBERE del campo nel giorno scelto.
-             data-selezionato: in modifica ri-seleziona la fascia attuale. data-url: l'endpoint da chiamare. -->
+        <!-- si riempie via AJAX (js/form-prenotazione.js) con le fasce LIBERE del campo nel giorno scelto. -->
         <select class="form-select" id="orario" name="orario" required
                 data-selezionato="<?php echo substr($prenotazione["orainizio"], 0, 5); ?>"
                 data-url="<?php echo BASE_URL; ?>api/disponibilita.php">

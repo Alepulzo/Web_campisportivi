@@ -1,7 +1,6 @@
 <?php
 /* Vista: gestione prenotazioni (admin) — oggi, future, passate (a tendina). */
-// Le 3 sezioni in un array per non ripetere la tabella. "azioni" = mostra i bottoni;
-// "collassabile" = la sezione sta in una tendina chiusa (le passate, per non occupare spazio).
+// Le 3 sezioni in un array per non ripetere la tabella.
 $sezioni = [
     ["titolo" => "Prenotazioni di oggi", "lista" => $templateParams["oggi"],    "azioni" => true,  "collassabile" => false],
     ["titolo" => "Prenotazioni future",  "lista" => $templateParams["future"],  "azioni" => true,  "collassabile" => false],

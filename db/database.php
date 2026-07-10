@@ -1,13 +1,5 @@
 <?php
-/* ============================================================
- * DatabaseHelper  —  STRATO DI ACCESSO AI DATI
- * ------------------------------------------------------------
- * UNICO file che parla col database. Ogni query è un metodo e usa
- * SEMPRE i prepared statement (prepare + bind_param).
- *
- * Sotto: ELENCO dei metodi da implementare, raggruppati per funzione
- * del sito.
- * ============================================================ */
+/* DatabaseHelper — unico file che parla col database. */
 class DatabaseHelper{
     private $db;
 
@@ -18,14 +10,13 @@ class DatabaseHelper{
         if($this->db->connect_error){
             die("Connessione al database fallita: " . $this->db->connect_error);
         }
-        // 3) imposto la codifica giusta per gli accenti (à, è, ...)
+        // 3) imposto la codifica giusta per gli accenti
         $this->db->set_charset("utf8mb4");
     }
 
     // UTENTI (login / registrazione)
 
-    // Verifica le credenziali: cerca l'utente per email, poi controlla la password
-    // con password_verify() contro l'hash salvato.
+    // Verifica le credenziali: cerca l'utente per email, poi controlla la password con password_verify() contro l'hash salvato.
     public function checkLogin($email, $password){
         $stmt = $this->db->prepare("SELECT idutente, nome, cognome, email, ruolo, password FROM utente WHERE email = ?");
         $stmt->bind_param('s', $email);
@@ -185,7 +176,7 @@ class DatabaseHelper{
         return $stmt->execute();
     }
 
-    /* ===================== SPORT ===================== */
+    // SPORT 
 
     // Ritorna tutti gli sport.
     public function getSport(){
@@ -194,7 +185,7 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-    /* ===================== DASHBOARD ===================== */
+    // DASHBOARD
 
     // Prenotazioni di oggi (con studente e campo), solo confermate.
     public function getPrenotazioniOggi(){
@@ -232,7 +223,7 @@ class DatabaseHelper{
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0]["n"];
     }
 
-    /* ===================== PRENOTAZIONI ===================== */
+    // PRENOTAZIONI
 
     // Tutte le prenotazioni con studente e campo, ordinate per data.
     public function getAllPrenotazioni(){
@@ -439,9 +430,9 @@ class DatabaseHelper{
         return "";
     }
 
-    /* ===================== UTENTI (gestione admin) ===================== */
+    // UTENTI (gestione admin)
 
-    // Tutti gli utenti (per la lista in gestione utenti).
+    // Tutti gli utenti.
     public function getAllUtenti(){
         $stmt = $this->db->prepare("SELECT idutente, nome, cognome, email, ruolo, dataregistrazione FROM utente ORDER BY cognome, nome");
         $stmt->execute();
@@ -467,11 +458,5 @@ class DatabaseHelper{
         $stmt->bind_param('i', $idutente);
         return $stmt->execute();
     }
-
-    /* ===================== EXTRA NON RICHIESTI DALLA SCALETTA (facoltativi) ===================== */
-    // getCampiBySport($idsport)      -> campi di uno sport (filtro sulla lista campi)
-    // getCampiInEvidenza($n)         -> n campi in evidenza per la dashboard studente
-    // updateProfilo($idutente, ...)  -> se si aggiunge un form di modifica al profilo
-    // getPrenotazioniByCampo($idcampo) -> prenotazioni di un singolo campo
 }
 ?>

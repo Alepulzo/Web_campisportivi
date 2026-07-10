@@ -1,8 +1,4 @@
-/* ============================================================
- * style.css  —  Ritocchi sopra Bootstrap
- * ------------------------------------------------------------
- * Bootstrap fa il grosso del lavoro: qui solo poche eccezioni nostre.
- * ============================================================ */
+/* style.css — ritocchi sopra Bootstrap: solo le poche eccezioni nostre. */
 
 /* Focus ben visibile per chi naviga da tastiera (accessibilità) */
 a:focus,
@@ -20,8 +16,7 @@ textarea:focus {
     object-fit: cover;
 }
 
-/* Sidebar: voce attiva nera con testo bianco, voci non attive testo nero
-   (coerente con header e footer scuri) */
+/* Sidebar: voce attiva nera con testo bianco, voci non attive testo nero*/
 #sidebarMenu .nav-pills {
     --bs-nav-link-color: #212529;
     --bs-nav-link-hover-color: #212529;   /* resta scuro sull'hover: evita il blu di default di Bootstrap */
@@ -29,7 +24,7 @@ textarea:focus {
     --bs-nav-pills-link-active-bg: #212529;
 }
 
-/* Voce non attiva: sfondo grigio chiaro al passaggio del mouse (feedback "cliccabile") */
+/* Voce non attiva: sfondo grigio chiaro al passaggio del mouse */
 #sidebarMenu .nav-link:not(.active):hover {
     background-color: #e9ecef;
 }
