@@ -39,7 +39,7 @@
         <div class="row flex-grow-1">
 
             <?php if(isUserLoggedIn()): ?>
-            <!-- ===== SIDEBAR (menu a sinistra) ===== -->
+            <!-- SIDEBAR -->
             <nav id="sidebarMenu" class="col-12 col-md-3 col-lg-2 d-md-flex flex-column bg-white border-end shadow-sm collapse p-3"
                  aria-label="Menu principale">
 
@@ -66,7 +66,7 @@
             </nav>
             <?php endif; ?>
 
-            <!-- ===== CONTENUTO PRINCIPALE: qui viene iniettata la vista ===== -->
+            <!-- CONTENUTO PRINCIPALE: qui viene iniettata la vista -->
             <main id="contenuto" class="<?php echo isUserLoggedIn() ? 'col-12 col-md-9 col-lg-10' : 'col-12'; ?> p-4">
                 <?php
                 if(isset($templateParams["nome"])){
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <!-- ===== PIÈ DI PAGINA ===== -->
+    <!-- FOOTER -->
     <footer class="bg-dark text-white text-center py-3">
         <p class="m-0 small">Campi Sportivi del Campus</p>
     </footer>
